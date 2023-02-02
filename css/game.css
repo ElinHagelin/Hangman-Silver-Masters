@@ -10,8 +10,16 @@ body {
 
 .quit-button,
 .scoreboard-button {
+	font-size: 1em;
 	padding: 0.3em 0.5em;
 	border-radius: 1em
+}
+
+.hangman-figure {
+	max-height: 565px;
+	text-align: center;
+	display: flex;
+	justify-content: center;
 }
 
 .letter-div-container>div,
