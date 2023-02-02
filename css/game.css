@@ -22,6 +22,12 @@ body {
 	justify-content: center;
 }
 
+.letter-div-container {
+	display: flex;
+	gap: 1em;
+	justify-content: center;
+}
+
 .letter-div-container>div,
 #letter-input {
 	font-size: 1.3em;
@@ -29,6 +35,8 @@ body {
 	width: 1em;
 	border-radius: 0.3em;
 	text-align: center;
+	border: 2px solid black;
+	margin-top: 1em;
 }
 
 @media screen and (min-width: 800px) {
