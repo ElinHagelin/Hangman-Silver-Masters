@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 
 body {
@@ -9,14 +8,21 @@ h1 {
 	font-family: 'Indie Flower', cursive;
 }
 
+.hangman-figure {
+	max-height: 565px;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+}
+
 form {
 	display: flex;
 	justify-content: center;
 	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-	
+
 }
 
-form > div {
+form>div {
 	margin: 0 1em;
 }
 
