@@ -23,6 +23,8 @@ let letter = ''
 let letterDiv = null
 let word = ''
 let guesses = 0
+const LS_KEY = 'Hangman-game'
+let result = false
 
 export default function generateRandomWord() {
 	word = wordList[Math.floor(Math.random() * wordList.length)];
@@ -61,10 +63,6 @@ letterInput.addEventListener('keydown', event => {
 		letterInput.value = ''
 		guesses = guesses + 1
 		console.log(guesses);
-	}	
-	else if (validKeys.includes(event.key) == false) {
-		event.preventDefault()
-		console.log('fel');
 	}
 	else if (validKeys.includes(event.key) == false) {
 		event.preventDefault()
@@ -76,66 +74,70 @@ letterInput.addEventListener('keydown', event => {
 let wrongGuess = 0
 
 function compareLetters() {
-    let letterInWord = false
-	
+	let letterInWord = false
 
-    // Gör en loop som kollar om input matchar någon av bokstäverna i ordet. Variabeln blir då true
 
-    for (let l = 0; l < letterArray.length; l++) {
-        if (letterInput.value === word[l]) {
-            divArray[l].innerText = letterInput.value.toUpperCase()
-            letterInWord = true
-			guessArray.push(word[l])
-        }
-    }
+	// Gör en loop som kollar om input matchar någon av bokstäverna i ordet. Variabeln blir då true
 
-    // Om variabeln inte blev true läggs bokstaven ut ovanför istället
+	for (let l = 0; l < letterArray.length; l++) {
+		if (letterInput.value === word[l]) {
+			divArray[l].innerText = letterInput.value.toUpperCase()
+			letterInWord = true
+		}
+	}
 
-    if (letterInWord === false) {
-		
+
+	// Om variabeln inte blev true läggs bokstaven ut ovanför istället
+
+	if (letterInWord === false) {
+
 		wrongGuess = wrongGuess + 1
-        const wrongLetter = document.createElement('p')
-        wrongLetter.classList.add('wrong')
-        wrongLetter.innerText = letterInput.value.toUpperCase()
-        wrongLetterContainer.append(wrongLetter)
+		const wrongLetter = document.createElement('p')
+		wrongLetter.classList.add('wrong')
+		wrongLetter.innerText = letterInput.value.toUpperCase()
+		wrongLetterContainer.append(wrongLetter)
 		writeHangman(wrongGuess)
-    }
-	else if (letterArray.length == guessArray.length) {
-		winner ()
+	}
+	else if (letterArray.length === guessArray.length) {
+		winner()
+	}
+	else {
+		guessArray.push(letterInput.value)
+		console.log('guessArray är: ' + guessArray);
 	}
 }
 
 function writeHangman() {
 
-	if(wrongGuess === 1){
+	if (wrongGuess === 1) {
 		hangman.ground.classList.remove('invisible')
-	}	
-		
-	else if (wrongGuess === 2){
+	}
+
+	else if (wrongGuess === 2) {
 		hangman.scaffold.classList.remove('invisible')
 	}
-		
-	else if(wrongGuess === 3){
+
+	else if (wrongGuess === 3) {
 		hangman.head.classList.remove('invisible')
 	}
 
-	else if(wrongGuess === 4){
+	else if (wrongGuess === 4) {
 		hangman.body.classList.remove('invisible')
 	}
-		
-	else if(wrongGuess === 5){
+
+	else if (wrongGuess === 5) {
 		hangman.arms.classList.remove('invisible')
 	}
 
 	else {
 		hangman.legs.classList.remove('invisible')
 
-		loser()		
+		loser()
 	}
-	
-} 
 
-function createOverlay(){
+}
+
+function createOverlay() {
 	let overlayElements = {
 		backgroundBlur: document.createElement('div'),
 		overlayDiv: document.createElement('div'),
@@ -144,6 +146,7 @@ function createOverlay(){
 	}
 	overlayElements.backgroundBlur.className = 'overlay'
 	overlayElements.overlayButton.className = 'overlay-button'
+	overlayElements.overlayDiv.classList.add = 'dialogue'
 	overlayElements.backgroundBlur.append(overlayElements.overlayDiv)
 	overlayElements.overlayDiv.append(overlayElements.overlayText)
 	overlayElements.overlayDiv.append(overlayElements.overlayButton)
@@ -152,19 +155,52 @@ function createOverlay(){
 	return overlayElements;
 }
 
-function loser () {
+export function startScreen() {
 	const overlay = createOverlay()
-	overlay.overlayDiv.className = 'loser'
+	overlayInput = document.createElement('input')
+	overlayInput.append(overlay.overlayDiv)
+	// overlay.overlayButton.after(overlayInput)
+	overlay.overlayDiv.classList.add = 'start'
+	// overlay.overlayDiv.classList.add = 'dialogue'
+	overlay.overlayText.className = 'start-text'
+	overlay.overlayText.innerText = 'Vad heter du?'
+	overlay.overlayButton.innerText = 'Starta spelet'
+}
+
+function loser() {
+	const overlay = createOverlay()
+	overlay.overlayDiv.classList.add = 'loser'
 	overlay.overlayText.className = 'loser-text'
 	overlay.overlayText.innerText = 'AJDÅ! Du förlorade, det rätta ordet var: ' + word
 	overlay.overlayButton.innerText = 'Spela igen'
 }
 
-function winner () {
+function winner() {
+	result = true
 	const overlay = createOverlay()
-	overlay.overlayDiv.className = 'winner'
+	overlay.overlayDiv.classList.add = 'winner'
 	overlay.overlayText.className = 'winner-text'
 	overlay.overlayText.innerText = 'Grattis! Du vann på så här många gissningar: ' + guesses
 	overlay.overlayButton.innerText = 'Spela igen'
+}
+
+function storeScore(name, score) {
+	const result = checkResult()
+
+	// Dessa ska in i parametrarna i funktionen
+	// name = overlay.input.value
+	// score = guesses
+
+	let personalScore = { name: name, score: score, result: result }
+	localStorage.setItem(LS_KEY, JSON.stringify(personalScore))
+}
+
+function checkResult(result) {
+	if (result == true) {
+		return 'Vinst'
+	}
+	else {
+		return 'Förlust'
+	}
 }
 
