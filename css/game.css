@@ -68,6 +68,11 @@ body {
 	margin: 0px;
 }
 
+.winner button {
+	margin: 1em;
+	
+}
+
 .winner-text {
 	font-size: 30px;
 }
