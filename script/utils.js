@@ -5,6 +5,8 @@ const letterInput = document.querySelector('#letter-input')
 const wrongLetterContainer = document.querySelector('.wrong-letter-container')
 const invisible = document.querySelector('.invisible')
 const body = document.querySelector('body')
+const scoreboardButton = document.querySelector('.scoreboard-button')
+
 let letterArray = []
 let divArray = []
 let guessArray = []
@@ -23,6 +25,11 @@ let letter = ''
 let letterDiv = null
 let word = ''
 let guesses = 0
+
+scoreboardButton.addEventListener('click', () => {
+	scoreboard ()
+})
+
 
 export default function generateRandomWord() {
 	word = wordList[Math.floor(Math.random() * wordList.length)];
@@ -146,4 +153,36 @@ function winner () {
 	overlay.overlayText.innerText = 'Grattis! Du vann på så här många gissningar: ' + guesses
 	overlay.overlayButton.innerText = 'Spela igen'
 }
+
+function scoreboard () {
+	const overlay = createOverlay()
+	let scoreboardHead = document.createElement('h1')
+	let scoreboardText = {
+		name: document.createElement('p'),
+		guess: document.createElement('p'),
+		result: document.createElement('p')
+	}
+	scoreboardHead.className = 'scoreboard-head'
+	scoreboardHead.innerText = 'Scoreboard'
+
+	scoreboardText.name.className = 'scoreboard-text-name'
+	scoreboardText.name.innerText = 'Namn:' 
+	
+	scoreboardText.guess.className = 'scoreboard-text-guess'
+	scoreboardText.guess.innerText = 'Gissningar: '
+
+	scoreboardText.result.className = 'scoreboard-text-result'
+	scoreboardText.result.innerText = 'Resultat: '
+
+	overlay.overlayDiv.append(scoreboardHead)
+	overlay.overlayDiv.append(scoreboardText.name)
+	overlay.overlayDiv.append(scoreboardText.guess)
+	overlay.overlayDiv.append(scoreboardText.result)
+	
+
+	overlay.overlayDiv.className = 'scoreboard'
+
+	overlay.overlayButton.innerText = 'Spela igen'
+}
+
 

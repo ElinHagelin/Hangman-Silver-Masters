@@ -38,7 +38,7 @@ body {
 .loser {
 	background-color: red;
 	opacity: 0.8;
-    width: 50vw;
+    width: 80vw;
 	height: 60vh;
 	border: solid white 2px;
     text-align: center;
@@ -55,7 +55,7 @@ body {
 
 .winner {
     background-color: #44D363;
-    width: 50vw;
+    width: 80vw;
     height: 60vh;
 	border: solid white 2px;
     text-align: center;
@@ -72,12 +72,58 @@ body {
 	font-size: 30px;
 }
 
+.scoreboard {
+	background-color: black;
+	opacity: 0.8;
+    width: 80vw;
+    height: 60vh;
+	border: solid white 2px;
+    text-align: center;
+    color: white;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	align-items: center;
+	padding: 2em;
+	margin: 0px;
+}
 
+.scoreboard-head {
+	color: #F7FC17;
+	grid-row: 1;
+	grid-column: 2;
+	font-size: 50px;
+}
+
+.scoreboard .overlay-button  {
+	grid-row: 4;
+	grid-column: 2;
+	justify-self: center;
+}
 
 .button-container {
 	display: flex;
 	justify-content: space-between;
 	padding: 2em 3em;
+}
+
+.scoreboard p {
+	font-size: 30px;
+	color: #F7FC17;
+	margin: 0px;
+	
+}
+
+.scoreboard-text-name {
+	grid-row: 2;
+}
+
+.scoreboard-text-guess {
+	grid-row: 2;
+}
+
+.scoreboard-text-result {
+	grid-row: 2;
 }
 
 .quit-button,
