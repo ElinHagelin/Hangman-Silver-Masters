@@ -66,6 +66,7 @@ letterInput.addEventListener('keydown', event => {
 
 
 let wrongGuess = 0
+
 function compareLetters() {
     let letterInWord = false
 	
