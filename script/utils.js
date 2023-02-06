@@ -5,7 +5,10 @@ const letterInput = document.querySelector('#letter-input')
 const wrongLetterContainer = document.querySelector('.wrong-letter-container')
 const invisible = document.querySelector('.invisible')
 const body = document.querySelector('body')
-
+let letterArray = []
+let divArray = []
+let guessArray = []
+let validKeys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'y', 'z', 'å', 'ä', 'ö', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Å', 'Ä', 'Ö', 'Backspace']
 
 const hangman = {
 	ground: document.querySelector('#ground'),
@@ -19,9 +22,7 @@ const hangman = {
 let letter = ''
 let letterDiv = null
 let word = ''
-let letterArray = []
-let divArray = []
-let validKeys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'å', 'ä', 'ö', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Å', 'Ä', 'Ö', 'Backspace']
+let guesses = 0
 
 export default function generateRandomWord() {
 	word = wordList[Math.floor(Math.random() * wordList.length)];
@@ -56,7 +57,14 @@ letterInput.addEventListener('keydown', event => {
 	if (event.key == 'Enter') {
 		compareLetters(letterInput.value, letterArray)
 		console.log(letterInput.value);
+		compareLetters()
 		letterInput.value = ''
+		guesses = guesses + 1
+		console.log(guesses);
+	}	
+	else if (validKeys.includes(event.key) == false) {
+		event.preventDefault()
+		console.log('fel');
 	}
 	else if (validKeys.includes(event.key) == false) {
 		event.preventDefault()
@@ -77,6 +85,7 @@ function compareLetters() {
         if (letterInput.value === word[l]) {
             divArray[l].innerText = letterInput.value.toUpperCase()
             letterInWord = true
+			guessArray.push(word[l])
         }
     }
 
@@ -90,62 +99,72 @@ function compareLetters() {
         wrongLetter.innerText = letterInput.value.toUpperCase()
         wrongLetterContainer.append(wrongLetter)
 		writeHangman(wrongGuess)
-    }console.log(wrongGuess)
+    }
+	else if (letterArray.length == guessArray.length) {
+		winner ()
+	}
 }
 
 function writeHangman() {
 
-		if(wrongGuess === 1){
+	if(wrongGuess === 1){
 		hangman.ground.classList.remove('invisible')
-		}	
+	}	
 		
-		else if (wrongGuess === 2){
-			hangman.scaffold.classList.remove('invisible')
-		}
+	else if (wrongGuess === 2){
+		hangman.scaffold.classList.remove('invisible')
+	}
 		
-		else if(wrongGuess === 3){
-			hangman.head.classList.remove('invisible')
-		}
+	else if(wrongGuess === 3){
+		hangman.head.classList.remove('invisible')
+	}
 
-		else if(wrongGuess === 4){
-			hangman.body.classList.remove('invisible')
-		}
+	else if(wrongGuess === 4){
+		hangman.body.classList.remove('invisible')
+	}
 		
-		else if(wrongGuess === 5){
-			hangman.arms.classList.remove('invisible')
-		}
+	else if(wrongGuess === 5){
+		hangman.arms.classList.remove('invisible')
+	}
 
-		else {
-			hangman.legs.classList.remove('invisible')
+	else {
+		hangman.legs.classList.remove('invisible')
 
-			// Skapar overlay
-			let overlay = document.createElement('div')
-			let overlayLooser = document.createElement('div')
-			let looserText = document.createElement('p')
-			let overlayButton = document.createElement('button')
-			overlay.append(overlayLooser)
-			overlayLooser.append(looserText)
-			overlayLooser.append(overlayButton)
-			
-
-			overlay.className = 'overlay'
-			overlayLooser.className = 'looser'
-			overlayButton.className = 'overlay-button'
-			looserText.className = 'looser-text'
-
-			looserText.innerText = 'AJDÅ! Du förlorade, det rätta ordet var: ' + word
-			overlayButton.innerText = 'Spela igen'
-
-			
-
-			body.append(overlay)
-		}
+		loser()		
+	}
 	
 } 
 
+function createOverlay(){
+	let overlayElements = {
+		backgroundBlur: document.createElement('div'),
+		overlayDiv: document.createElement('div'),
+		overlayText: document.createElement('p'),
+		overlayButton: document.createElement('button')
+	}
+	overlayElements.backgroundBlur.className = 'overlay'
+	overlayElements.overlayButton.className = 'overlay-button'
+	overlayElements.backgroundBlur.append(overlayElements.overlayDiv)
+	overlayElements.overlayDiv.append(overlayElements.overlayText)
+	overlayElements.overlayDiv.append(overlayElements.overlayButton)
+	body.append(overlayElements.backgroundBlur)
+	console.log(3)
+	return overlayElements;
+}
 
+function loser () {
+	const overlay = createOverlay()
+	overlay.overlayDiv.className = 'loser'
+	overlay.overlayText.className = 'loser-text'
+	overlay.overlayText.innerText = 'AJDÅ! Du förlorade, det rätta ordet var: ' + word
+	overlay.overlayButton.innerText = 'Spela igen'
+}
 
-
-
-
+function winner () {
+	const overlay = createOverlay()
+	overlay.overlayDiv.className = 'winner'
+	overlay.overlayText.className = 'winner-text'
+	overlay.overlayText.innerText = 'Grattis! Du vann på så här många gissningar: ' + guesses
+	overlay.overlayButton.innerText = 'Spela igen'
+}
 

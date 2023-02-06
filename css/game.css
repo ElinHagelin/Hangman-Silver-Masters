@@ -9,6 +9,10 @@ body {
 	visibility: hidden;
 }
 
+#letter-input {
+	text-transform: uppercase;
+}
+
 .overlay {
     background-color: rgba(0,0,0,0.5);
 	margin: 0px;
@@ -31,7 +35,7 @@ body {
 	width: fit-content;
 }
 
-.looser {
+.loser {
 	background-color: red;
 	opacity: 0.8;
     width: 50vw;
@@ -45,10 +49,30 @@ body {
 	padding: 2em;
 	margin: 0px;
 }
-
-.looser-text {
+.loser-text {
 	font-size: 30px;
 }
+
+.winner {
+    background-color: #44D363;
+    width: 50vw;
+    height: 60vh;
+	border: solid white 2px;
+    text-align: center;
+    color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 2em;
+	margin: 0px;
+}
+
+.winner-text {
+	font-size: 30px;
+}
+
+
 
 .button-container {
 	display: flex;
