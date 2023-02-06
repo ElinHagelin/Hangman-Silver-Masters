@@ -107,10 +107,18 @@ body {
 	padding: 2em 3em;
 }
 
+.winner-scoreboard-button  {
+	font-size: 1.5em;
+	padding: 1em;
+	border-radius: 2em;
+	width: fit-content;
+}
+
 .scoreboard p {
 	font-size: 30px;
 	color: #F7FC17;
 	margin: 0px;
+	align-self: flex-start;
 	
 }
 

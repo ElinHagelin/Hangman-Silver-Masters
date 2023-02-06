@@ -28,6 +28,7 @@ let guesses = 0
 
 scoreboardButton.addEventListener('click', () => {
 	scoreboard ()
+
 })
 
 
@@ -128,6 +129,7 @@ function createOverlay(){
 		overlayText: document.createElement('p'),
 		overlayButton: document.createElement('button')
 	}
+
 	overlayElements.backgroundBlur.className = 'overlay'
 	overlayElements.overlayButton.className = 'overlay-button'
 	overlayElements.backgroundBlur.append(overlayElements.overlayDiv)
@@ -144,14 +146,34 @@ function loser () {
 	overlay.overlayText.className = 'loser-text'
 	overlay.overlayText.innerText = 'AJDÅ! Du förlorade, det rätta ordet var: ' + word
 	overlay.overlayButton.innerText = 'Spela igen'
+
+	overlay.overlayButton.addEventListener('click', () => {
+		console.log('clicked')
+		location.reload(); 
+})
 }
 
 function winner () {
 	const overlay = createOverlay()
+	let scoreboardButton = document.createElement('button')
 	overlay.overlayDiv.className = 'winner'
 	overlay.overlayText.className = 'winner-text'
 	overlay.overlayText.innerText = 'Grattis! Du vann på så här många gissningar: ' + guesses
 	overlay.overlayButton.innerText = 'Spela igen'
+	scoreboardButton.className = 'winner-scoreboard-button'
+	scoreboardButton.innerText = 'Poängtavla'
+	overlay.overlayDiv.append(scoreboardButton)
+
+	overlay.overlayButton.addEventListener('click', () => {
+		console.log('clicked')
+		location.reload(); 
+	})
+
+	scoreboardButton.addEventListener('click', () => {
+		overlay.backgroundBlur.classList.add('invisible')
+		scoreboard ()
+	
+	})
 }
 
 function scoreboard () {
@@ -174,6 +196,8 @@ function scoreboard () {
 	scoreboardText.result.className = 'scoreboard-text-result'
 	scoreboardText.result.innerText = 'Resultat: '
 
+	
+
 	overlay.overlayDiv.append(scoreboardHead)
 	overlay.overlayDiv.append(scoreboardText.name)
 	overlay.overlayDiv.append(scoreboardText.guess)
@@ -183,6 +207,12 @@ function scoreboard () {
 	overlay.overlayDiv.className = 'scoreboard'
 
 	overlay.overlayButton.innerText = 'Spela igen'
-}
 
+	overlay.overlayButton.addEventListener('click', () => {
+		console.log('clicked')
+		location.reload(); 
+		
+	})
+
+}
 
