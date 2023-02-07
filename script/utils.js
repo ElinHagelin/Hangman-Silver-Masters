@@ -49,6 +49,7 @@ export default function generateRandomWord() {
 	}
 	console.log(divArray);
 	console.log(letterArray);
+	startScreen()
 	return letter
 	return letterArray
 }
@@ -155,16 +156,17 @@ function createOverlay() {
 	return overlayElements;
 }
 
-export function startScreen() {
+function startScreen() {
 	const overlay = createOverlay()
-	overlayInput = document.createElement('input')
-	overlayInput.append(overlay.overlayDiv)
-	// overlay.overlayButton.after(overlayInput)
-	overlay.overlayDiv.classList.add = 'start'
+	let overlayInput = document.createElement('input')
+	// overlay.overlayDiv.append(overlayInput)
+	overlay.overlayDiv.insertBefore(overlayInput, overlay.overlayButton)
+	overlay.overlayDiv.className = 'start'
 	// overlay.overlayDiv.classList.add = 'dialogue'
 	overlay.overlayText.className = 'start-text'
 	overlay.overlayText.innerText = 'Vad heter du?'
 	overlay.overlayButton.innerText = 'Starta spelet'
+	console.log('hej');
 }
 
 function loser() {

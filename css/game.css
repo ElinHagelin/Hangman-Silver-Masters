@@ -32,7 +32,7 @@ body {
 	height: 60vh;
 	border: solid white 2px;
 	text-align: center;
-	color: white;
+	color: black;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
