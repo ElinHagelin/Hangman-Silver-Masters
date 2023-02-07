@@ -33,6 +33,9 @@ scoreboardButton.addEventListener('click', () => {
 
 })
 
+window.addEventListener("load", (event) => {
+	startScreen()
+});
 
 export default function generateRandomWord() {
 	word = wordList[Math.floor(Math.random() * wordList.length)];
