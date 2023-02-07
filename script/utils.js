@@ -29,7 +29,7 @@ let letter = ''
 let letterDiv = null
 let word = ''
 let guesses = 0
-const LS_KEY = 'Hangman-game'
+
 let result = false
 
 // När man trycker på "poänglista" så kommer scoreboarden upp, funktionen för scorebord finns längre ner i koden.
@@ -58,6 +58,7 @@ export default function generateRandomWord() {
 		letterDivContainer.append(letterDiv)
 		console.log(letter);
 	}
+	startScreen()
 }
 
 // Eventlyssnare på Enter-tangenten. Kör funktionen som kollar om gissningen matchar någon av bokstäverna i ordet och tömmer sen input-fältet. 
@@ -107,6 +108,7 @@ function compareLetters() {
 	}
 	else if (letterArray.length === guessArray.length) {
 		winner()
+		storeScore()
 	}
 
 }
@@ -139,6 +141,7 @@ function writeHangman() {
 		hangman.legs.classList.remove('invisible')
 
 		loser()		// Här körs overlay för när man förlorar då hela gubben har ritats ut från och med här.
+
 	}
 }
 
@@ -163,17 +166,20 @@ function createOverlay() {
 	return overlayElements;
 }
 
+let overlayInput = document.createElement('input')
 function startScreen() {
 	const overlay = createOverlay()
-	let overlayInput = document.createElement('input')
-	// overlay.overlayDiv.append(overlayInput)
 	overlay.overlayDiv.insertBefore(overlayInput, overlay.overlayButton)
 	overlay.overlayDiv.className = 'start'
-	// overlay.overlayDiv.classList.add = 'dialogue'
 	overlay.overlayText.className = 'start-text'
 	overlay.overlayText.innerText = 'Vad heter du?'
 	overlay.overlayButton.innerText = 'Starta spelet'
-	console.log('hej');
+
+	overlay.overlayButton.addEventListener('click', () => {
+		overlay.backgroundBlur.classList.add('invisible')
+	})
+
+	// return overlayInput.value
 }
 // funktionen för overlay när man förlorar:
 
@@ -188,6 +194,7 @@ function loser() {
 		console.log('clicked')
 		location.reload();  //Laddar om sidan
 	})
+	storeScore()
 }
 
 // funktionen för overlay när man vinner:
@@ -214,6 +221,7 @@ function winner() {
 		scoreboard() //Byter overlay till scoreboard
 
 	})
+	storeScore()
 }
 
 // Här kommer funktionen för scoreboarden som är en overlay.
@@ -266,20 +274,22 @@ function scoreboard() {
 		//Stänger overlayen när man klickar utanför div-en
 	})
 }
+function storeScore() {
 
-function storeScore(name, score) {
-	const result = checkResult()
+	const name = overlayInput.value
+	const score = wrongGuess
+	const matchResult = checkResult(result)
 
 	// Dessa ska in i parametrarna i funktionen
 	// name = overlay.input.value
 	// score = guesses
 
-	let personalScore = { name: name, score: score, result: result }
-	localStorage.setItem(LS_KEY, JSON.stringify(personalScore))
+	let personalScore = { score: score, result: matchResult }
+	localStorage.setItem(name, JSON.stringify(personalScore))
 }
 
 function checkResult(result) {
-	if (result == true) {
+	if (result === true) {
 		return 'Vinst'
 	}
 	else {
