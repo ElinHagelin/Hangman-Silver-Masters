@@ -12,6 +12,9 @@ let divArray = []
 let guessArray = []
 let validKeys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'å', 'ä', 'ö', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Å', 'Ä', 'Ö', 'Backspace']
 
+//Möjlighet att byta ut validKeys-arrayen med kod från discord. split() och map()
+
+
 // Variabel för hela gubben uppdelad i objekt
 const hangman = {
 	ground: document.querySelector('#ground'),
@@ -230,7 +233,7 @@ function scoreboard() {
 		location.reload();  //Laddar om sidan
 		event.stopPropagation()
 
-		//Stoppar bubblingen uppåt så att overlayen bara stängs när man klickar utanför overlayen
+		//Stoppar bubblingen uppåt så att overlayen bara stängs när man klickar utanför
 	})
 
 	overlay.overlayDiv.addEventListener('click', event => {
