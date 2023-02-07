@@ -9,7 +9,7 @@ h1 {
 }
 
 .hangman-figure {
-	max-height: 565px;
+	max-height: 400px;
 	text-align: center;
 	display: flex;
 	justify-content: center;

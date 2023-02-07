@@ -10,7 +10,6 @@ body {
 }
 
 
-
 .overlay {
     background-color: rgba(0,0,0,0.5);
 	margin: 0px;
@@ -145,7 +144,7 @@ body {
 }
 
 .hangman-figure {
-	max-height: 565px;
+	max-height: 480px;
 	text-align: center;
 	display: flex;
 	justify-content: center;
