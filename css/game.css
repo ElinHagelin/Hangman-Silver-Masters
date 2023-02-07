@@ -28,7 +28,7 @@ body {
 
 .start {
 	background-color: aquamarine;
-	width: 50vw;
+	width: 80vw;
 	height: 60vh;
 	border: solid white 2px;
 	text-align: center;
@@ -51,7 +51,7 @@ body {
 .loser {
 	background-color: red;
 	opacity: 0.8;
-	width: 50vw;
+	width: 80vw;
 	height: 60vh;
 	border: solid white 2px;
 	text-align: center;
@@ -69,7 +69,7 @@ body {
 
 .winner {
 	background-color: #44D363;
-	width: 50vw;
+	width: 80vw;
 	height: 60vh;
 	border: solid white 2px;
 	text-align: center;
