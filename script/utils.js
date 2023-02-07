@@ -57,16 +57,15 @@ export default function generateRandomWord() {
 	}
 	console.log(divArray);
 	console.log(letterArray);
-	startScreen()
-	return letter
-	return letterArray
+	// startScreen()
+	// return letter
+	// return letterArray
 }
 
 // Eventlyssnare på Enter-tangenten. Kör funktionen som kollar om gissningen matchar någon av bokstäverna i ordet och tömmer sen input-fältet. 
 
 letterInput.addEventListener('keydown', event => {
 	if (event.key == 'Enter') {
-		compareLetters(letterInput.value, letterArray)
 		console.log(letterInput.value);
 		compareLetters()
 		letterInput.value = ''
@@ -92,10 +91,11 @@ function compareLetters() {
 		if (letterInput.value === word[l]) {
 			divArray[l].innerText = letterInput.value.toUpperCase()
 			letterInWord = true
+			guessArray.push(letterInput.value)
 		}
 	}
 
-
+	console.log('guessArray = ' + guessArray);
 	// Om variabeln inte blev true läggs bokstaven ut ovanför istället
 
 	if (letterInWord === false) {
@@ -110,10 +110,7 @@ function compareLetters() {
 	else if (letterArray.length === guessArray.length) {
 		winner()
 	}
-	else {
-		guessArray.push(letterInput.value)
-		console.log('guessArray är: ' + guessArray);
-	}
+
 }
 
 function writeHangman() {
@@ -180,7 +177,7 @@ function startScreen() {
 
 function loser() {
 	const overlay = createOverlay()
-	overlay.overlayDiv.classList.add = 'loser'
+	overlay.overlayDiv.className = 'loser'
 	overlay.overlayText.className = 'loser-text'
 	overlay.overlayText.innerText = 'AJDÅ! Du förlorade, det rätta ordet var: ' + word
 	overlay.overlayButton.innerText = 'Spela igen'

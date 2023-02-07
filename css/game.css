@@ -86,7 +86,34 @@ body {
 	font-size: 30px;
 }
 
+.scoreboard {
+	background-color: black;
+	opacity: 0.8;
+	width: 80vw;
+	height: 60vh;
+	border: solid white 2px;
+	text-align: center;
+	color: white;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	align-items: center;
+	padding: 2em;
+	margin: 0px;
+}
 
+.scoreboard-head {
+	color: #F7FC17;
+	grid-row: 1;
+	grid-column: 2;
+	font-size: 50px;
+}
+
+.scoreboard .overlay-button {
+	grid-row: 4;
+	grid-column: 2;
+	justify-self: center;
+}
 
 .button-container {
 	display: flex;
