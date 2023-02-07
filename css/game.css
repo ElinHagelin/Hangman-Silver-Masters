@@ -145,7 +145,7 @@ body {
 }
 
 .hangman-figure {
-	max-height: 565px;
+	max-height: 460px;
 	text-align: center;
 	display: flex;
 	justify-content: center;
@@ -156,6 +156,7 @@ body {
 	gap: 1em;
 	justify-content: center;
 	position: relative;
+	flex-flow: row wrap;
 }
 
 .letter-div-container>div,
@@ -189,15 +190,23 @@ body {
 }
 
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 400px) {
 
 	.quit-button,
 	.scoreboard-button {
-		font-size: 1.5em;
+		font-size: 1.3em;
 	}
 
 	.letter-div-container>div,
 	#letter-input {
-		font-size: 2em;
+		font-size: 1em;
+	}
+
+	.letter-div-container {
+		display: flex;
+		gap: 1em;
+		justify-content: center;
+		position: relative;
+		flex-flow: wrap;
 	}
 }

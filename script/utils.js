@@ -59,8 +59,6 @@ letterInput.addEventListener('keydown', event => {
 	}
 })
 
-console.log(letterInput.value);
-
 let wrongGuess = 0
 function compareLetters() {
     let letterInWord = false
@@ -87,7 +85,7 @@ function compareLetters() {
         wrongLetterContainer.append(wrongLetter)
 		writeHangman(wrongGuess)
     }
-	else if (letterArray.length == guessArray.length) {
+	else if (letterArray.length === guessArray.length) {
 		winner ()
 	}
 }
