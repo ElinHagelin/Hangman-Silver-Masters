@@ -7,9 +7,7 @@ body {
 	visibility: hidden;
 }
 
-#letter-input {
-	text-transform: uppercase;
-}
+
 
 .overlay {
 	background-color: rgba(0, 0, 0, 0.5);
@@ -162,15 +160,16 @@ body {
 }
 
 .wrong-letter-container {
-	min-height: 1.7em;
-	display: flex;
-	justify-content: center;
+    min-height: 1.7em;
+    display: flex;
+    justify-content: center;
 }
 
 .wrong {
-	font-size: 1.5em;
-	margin: 0 1em;
+    font-size: 1.5em;
+    margin: 0 1em;
 }
+
 
 @media screen and (min-width: 800px) {
 
