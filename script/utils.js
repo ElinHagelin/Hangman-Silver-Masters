@@ -53,17 +53,14 @@ export default function generateRandomWord() {
 		letterDivContainer.append(letterDiv)
 		console.log(letter);
 	}
-	console.log(divArray);
-	console.log(letterArray);
-	return letter
-	return letterArray
+	
+	
 }
 
 // Eventlyssnare på Enter-tangenten. Kör funktionen som kollar om gissningen matchar någon av bokstäverna i ordet och tömmer sen input-fältet. 
 
 letterInput.addEventListener('keydown', event => {
 	if (event.key == 'Enter') {
-		compareLetters(letterInput.value, letterArray)
 		console.log(letterInput.value);
 		compareLetters()
 		letterInput.value = ''
@@ -74,10 +71,7 @@ letterInput.addEventListener('keydown', event => {
 		event.preventDefault()
 		console.log('fel');
 	}
-	else if (validKeys.includes(event.key) == false) {
-		event.preventDefault()
-		console.log('fel');
-	}
+	
 })
 
 
@@ -179,7 +173,7 @@ function winner () {
 	let scoreboardButton = document.createElement('button')
 	overlay.overlayDiv.className = 'winner'
 	overlay.overlayText.className = 'winner-text'
-	overlay.overlayText.innerText = 'Grattis! Du vann på så här många gissningar: ' + guesses
+	overlay.overlayText.innerText = 'Grattis! Du vann på så här många gissningar: ' + (guesses + 1)
 	overlay.overlayButton.innerText = 'Spela igen'
 	scoreboardButton.className = 'winner-scoreboard-button'
 	scoreboardButton.innerText = 'Poängtavla'
