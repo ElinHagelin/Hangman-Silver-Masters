@@ -29,7 +29,7 @@ let letter = ''
 let letterDiv = null
 let word = ''
 let guesses = 0
-
+const LS_KEY = 'hangman-score'
 let result = false
 
 // När man trycker på "poänglista" så kommer scoreboarden upp, funktionen för scorebord finns längre ner i koden.
@@ -64,7 +64,7 @@ export default function generateRandomWord() {
 // Eventlyssnare på Enter-tangenten. Kör funktionen som kollar om gissningen matchar någon av bokstäverna i ordet och tömmer sen input-fältet. 
 
 letterInput.addEventListener('keydown', event => {
-	if (event.key == 'Enter') {
+	if (event.key == 'Enter' && letterInput.value != "") {
 		console.log(letterInput.value);
 		compareLetters()
 		letterInput.value = ''
@@ -108,7 +108,6 @@ function compareLetters() {
 	}
 	else if (letterArray.length === guessArray.length) {
 		winner()
-		storeScore()
 	}
 
 }
@@ -162,7 +161,6 @@ function createOverlay() {
 	overlayElements.overlayDiv.append(overlayElements.overlayText)
 	overlayElements.overlayDiv.append(overlayElements.overlayButton)
 	body.append(overlayElements.backgroundBlur)
-	console.log(3)
 	return overlayElements;
 }
 
@@ -190,11 +188,12 @@ function loser() {
 	overlay.overlayText.innerText = 'AJDÅ! Du förlorade, det rätta ordet var: ' + word
 	overlay.overlayButton.innerText = 'Spela igen'
 
+	storeScore()
+
 	overlay.overlayButton.addEventListener('click', () => {
 		console.log('clicked')
 		location.reload();  //Laddar om sidan
 	})
-	storeScore()
 }
 
 // funktionen för overlay när man vinner:
@@ -211,6 +210,8 @@ function winner() {
 	scoreboardButton.innerText = 'Poängtavla'
 	overlay.overlayDiv.append(scoreboardButton)
 
+	storeScore()
+
 	overlay.overlayButton.addEventListener('click', () => {
 		console.log('clicked')
 		location.reload(); //Laddar om sidan
@@ -221,19 +222,25 @@ function winner() {
 		scoreboard() //Byter overlay till scoreboard
 
 	})
-	storeScore()
 }
 
 // Här kommer funktionen för scoreboarden som är en overlay.
 
 function scoreboard() {
+	const storedStringScores = localStorage.getItem(LS_KEY)
+	const storedScores = JSON.parse(storedStringScores)
 	const overlay = createOverlay()
 	let scoreboardHead = document.createElement('h1')
 	let scoreboardText = {
-		name: document.createElement('p'),
-		guess: document.createElement('p'),
-		result: document.createElement('p')
+		name: document.createElement('h2'),
+		guess: document.createElement('h2'),
+		result: document.createElement('h2'),
+		box1: document.createElement('div'),
+		box2: document.createElement('div'),
+		box3: document.createElement('div')
 	}
+
+
 	scoreboardHead.className = 'scoreboard-head'
 	scoreboardHead.innerText = 'Scoreboard'
 
@@ -246,10 +253,30 @@ function scoreboard() {
 	scoreboardText.result.className = 'scoreboard-text-result'
 	scoreboardText.result.innerText = 'Resultat: '
 
+	scoreboardText.box1.className = 'scoreboard-box1'
+	scoreboardText.box2.className = 'scoreboard-box2'
+	scoreboardText.box3.className = 'scoreboard-box3'
+
+
+	scoreboardText.box1.append(scoreboardText.name)
+	scoreboardText.box2.append(scoreboardText.guess)
+	scoreboardText.box3.append(scoreboardText.result)
 	overlay.overlayDiv.append(scoreboardHead)
-	overlay.overlayDiv.append(scoreboardText.name)
-	overlay.overlayDiv.append(scoreboardText.guess)
-	overlay.overlayDiv.append(scoreboardText.result)
+	overlay.overlayDiv.append(scoreboardText.box1)
+	overlay.overlayDiv.append(scoreboardText.box2)
+	overlay.overlayDiv.append(scoreboardText.box3)
+
+	storedScores.forEach(element => {
+		let name = document.createElement('p')
+		name.innerText = element.name;
+		scoreboardText.box1.append(name)
+		let score = document.createElement('p')
+		score.innerText = element.score;
+		scoreboardText.box2.append(score)
+		let result = document.createElement('p')
+		result.innerText = element.result;
+		scoreboardText.box3.append(result)
+	});
 
 	overlay.overlayDiv.className = 'scoreboard'
 	overlay.overlayButton.innerText = 'Spela igen'
@@ -274,19 +301,34 @@ function scoreboard() {
 		//Stänger overlayen när man klickar utanför div-en
 	})
 }
+
 function storeScore() {
+	const matchRound = {
+		name: overlayInput.value,
+		score: wrongGuess,
+		result: checkResult(result)
+	}
 
-	const name = overlayInput.value
-	const score = wrongGuess
-	const matchResult = checkResult(result)
+	let scoreStringFromLocalStorage = localStorage.getItem(LS_KEY)
+	// Obs! Användaren kan ta bort datan från localStorage
+	if (!scoreStringFromLocalStorage) {
+		scoreStringFromLocalStorage = '[]'
+	}
+	let scores = JSON.parse(scoreStringFromLocalStorage)
 
-	// Dessa ska in i parametrarna i funktionen
-	// name = overlay.input.value
-	// score = guesses
+	scores.push(matchRound)
 
-	let personalScore = { score: score, result: matchResult }
-	localStorage.setItem(name, JSON.stringify(personalScore))
+	let scoreStringToSave = JSON.stringify(scores)
+	localStorage.setItem(LS_KEY, scoreStringToSave)
+
+	// Om man behöver flera arrayer då?
+	// const dataExample = {
+	// 	results: [],
+	// 	pvpResults: []
+	// }
+	return matchRound
 }
+
 
 function checkResult(result) {
 	if (result === true) {
