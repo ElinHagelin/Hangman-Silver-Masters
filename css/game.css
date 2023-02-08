@@ -42,12 +42,12 @@ body {
 	font-size: 1.5em;
 	padding: 1em;
 	border-radius: 2em;
+	margin-right: 1em;
 	width: fit-content;
 }
 
 .loser {
-	background-color: red;
-	opacity: 0.8;
+	background-color: rgba(137, 35, 35, 0.6);
     width: 60vw;
 	height: 60vh;
 	border: solid white 2px;
@@ -58,14 +58,16 @@ body {
 	align-items: center;
 	padding: 2em;
 	margin: 0px;
+	color: white;
 }
 
 .loser-text {
-	font-size: 30px;
+	font-size: 1.5em;
+	margin-bottom: 0px;
 }
 
 .winner {
-    background-color: #44D363;
+    background-color: rgba(68, 211, 99, 0.6);
     width: 60vw;
     height: 60vh;
 	border: solid white 2px;
@@ -79,31 +81,33 @@ body {
 	margin: 0px;
 }
 
-.winner-text {
-	font-size: 30px;
+	.winner-text {
+	font-size: 1.5em;
 }
 
+
+
 .scoreboard {
-	background-color: black;
-	opacity: 0.8;
+	background-color:rgba(0, 0, 0, 0.6); 
     width: min(900px, 70%);
-    height: 60vh;
+    height: fit-content;
 	border: solid white 2px;
 	text-align: center;
 	color: white;
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: 0.5fr 0.5fr 0.5fr;
 	align-items: center;
-	padding: 2em;
+	padding: 2.5em;
 	margin: 0px;
 }
 
 .scoreboard-head {
 	color: #F7FC17;
 	grid-row: 1;
-	grid-column: 2;
+	grid-column: 1 / span 3;
 	font-size: 2em;
+	margin: 0px 0px 10px 0px;
 }
 
 .scoreboard .overlay-button {
@@ -126,24 +130,29 @@ body {
 }
 
 .scoreboard p {
-	font-size: 1.5em;
+	font-size: 1.2em;
 	color: #F7FC17;
 	margin: 0px;
 	align-self: flex-start;
+}
 
-	
+.scoreboard h2 {
+	font-size: 1.4em;
 }
 
 .scoreboard-text-name {
 	grid-row: 2;
+	margin: 0px;
 }
 
 .scoreboard-text-guess {
 	grid-row: 2;
+	margin: 0px;
 }
 
 .scoreboard-text-result {
 	grid-row: 2;
+	margin: 0px;
 }
 
 .quit-button,
@@ -199,7 +208,7 @@ body {
 }
 
 
-@media screen and (max-width: 510px) {
+@media screen and (max-width: 800px) {
 
 	.quit-button,
 	.scoreboard-button {
@@ -219,14 +228,8 @@ body {
 		flex-flow: wrap;
 	}
 
-	.overlay div {
-		width: 60vw;
-		height: 30wv;
-
-	}
-
 	.overlay p {
-		font-size: 1.5em;
+		font-size: 1em;
 	}
 
 	.wrong {
@@ -239,30 +242,56 @@ body {
 	margin-top: 0.5em; 
 	}
 
+	.overlay-button {
+		font-size: 1em;
+		margin: 0.5em;
+	}
+
+	.winner-scoreboard-button {
+		font-size: 1em;
+	}
+
+}
+
+	@media screen and (max-width: 550px) {
+
 	.scoreboard p {
 		font-size: 1em;
 		color: #F7FC17;
 		margin: 0px;
-		flex-flow: row;
-		
+		grid-column: 1;
+	}
+
+	.scoreboard .overlay-button {
+		grid-column: 1 / span 3;
 	}
 
 	.scoreboard-head {
 		font-size: 1.5em;
-
 	}
 
-	.scoreboard-text-name {
+	h2.style {
+		font-size: 1em;
+		padding-left: 0.5em;
+	}
+
+	.scoreboard-box-1 {
 		grid-row: 2;
+		grid-column: 1;
+		padding: 0px;
+		margin: 0px;
 	}
 	
-	.scoreboard-text-guess {
+	.scoreboard-box-2 {
 		grid-row: 3;
+		grid-column: 1;
 	}
 	
-	.scoreboard-text-result {
+	.scoreboard-box-3 {
 		grid-row: 4;
-		gap: 1px;
+		grid-column: 1;
 	}
+
+	
 
 }

@@ -183,11 +183,14 @@ function startScreen() {
 
 function loser() {
 	const overlay = createOverlay()
+	let looserText = document.createElement('p')
+	looserText.className = 'looser-text'
+	looserText.innerText = 'Det rätta ordet var: '+ word 
 	overlay.overlayDiv.className = 'loser'
 	overlay.overlayText.className = 'loser-text'
-	overlay.overlayText.innerText = 'AJDÅ! Du förlorade, det rätta ordet var: ' + word
+	overlay.overlayText.innerText = 'AJDÅ, Du förlorade! '
 	overlay.overlayButton.innerText = 'Spela igen'
-
+	overlay.overlayDiv.insertBefore(looserText, overlay.overlayButton)
 	storeScore()
 
 	overlay.overlayButton.addEventListener('click', () => {
@@ -201,15 +204,26 @@ function loser() {
 function winner() {
 	result = true
 	const overlay = createOverlay()
+	let buttonDiv = document.createElement('div')
 	let scoreboardButton = document.createElement('button')
+	let winnerText = document.createElement('p')
+	let winnerText2 = document.createElement('p')
+	buttonDiv.className = 'button-div'
+	winnerText2.className = 'winner-text'
+	winnerText.className = 'winner-text'
+	winnerText.innerText = 'Det rätta ordet var: '+ word 
+	winnerText2.innerText = 'Du vann på så här många gissningar: ' +  (guesses + 1)
 	overlay.overlayDiv.className = 'winner'
-	overlay.overlayText.className = 'winner-text'
-	overlay.overlayText.innerText = 'Grattis! Du vann på så här många gissningar: ' + (guesses + 1)
+	overlay.overlayText.className = 'winner-heading'
+	overlay.overlayText.innerText = 'Grattis!'
 	overlay.overlayButton.innerText = 'Spela igen'
 	scoreboardButton.className = 'winner-scoreboard-button'
 	scoreboardButton.innerText = 'Poängtavla'
-	overlay.overlayDiv.append(scoreboardButton)
-
+	overlay.overlayDiv.insertBefore(winnerText2, overlay.overlayButton)
+	overlay.overlayDiv.insertBefore(winnerText, overlay.overlayButton)
+	overlay.overlayDiv.append(buttonDiv)
+	buttonDiv.append(overlay.overlayButton)
+	buttonDiv.append(scoreboardButton)
 	storeScore()
 
 	overlay.overlayButton.addEventListener('click', () => {
@@ -241,13 +255,13 @@ function scoreboard() {
 	overlay.overlayText.className = 'scoreboard-head'
 	overlay.overlayText.innerText = 'Scoreboard'
 
-	scoreboardText.name.className = 'scoreboard-text-name'
+	scoreboardText.name.className = 'style scoreboard-text-name'
 	scoreboardText.name.innerText = 'Namn:'
 
-	scoreboardText.guess.className = 'scoreboard-text-guess'
-	scoreboardText.guess.innerText = 'Gissningar: '
+	scoreboardText.guess.className = 'style scoreboard-text-guess'
+	scoreboardText.guess.innerText = 'Poäng: '
 
-	scoreboardText.result.className = 'scoreboard-text-result'
+	scoreboardText.result.className = 'style scoreboard-text-result'
 	scoreboardText.result.innerText = 'Resultat: '
 
 	scoreboardText.box1.className = 'scoreboard-box1'
@@ -258,7 +272,7 @@ function scoreboard() {
 	scoreboardText.box1.append(scoreboardText.name)
 	scoreboardText.box2.append(scoreboardText.guess)
 	scoreboardText.box3.append(scoreboardText.result)
-	overlay.overlayDiv.append(scoreboardHead)
+	
 	overlay.overlayDiv.append(scoreboardText.box1)
 	overlay.overlayDiv.append(scoreboardText.box2)
 	overlay.overlayDiv.append(scoreboardText.box3)
