@@ -269,22 +269,6 @@ function scoreboard() {
 	overlay.overlayDiv.append(scoreboardText.box3)
 	overlay.overlayDiv.append(scoreboardText.box4)
 
-
-	// for (let index = storedScores.length; index <= (storedScores.length - 10); index--) {
-	// 	let name = document.createElement('p')
-	// 	name.innerText = storedScores[i].name;
-	// 	scoreboardText.box1.append(name)
-	// 	let score = document.createElement('p')
-	// 	score.innerText = storedScores[i].score;
-	// 	scoreboardText.box2.append(score)
-	// 	let result = document.createElement('p')
-	// 	result.innerText = storedScores[i].result;
-	// 	scoreboardText.box3.append(result)
-	// 	let deleteButton = document.createElement('button')
-	// 	deleteButton.innerText = 'Ta bort';
-	// 	scoreboardText.box4.append(deleteButton)
-
-	// }
 	let scoreIndex = 0
 
 	storedScores.slice().reverse().forEach(element => {
