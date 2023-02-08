@@ -167,11 +167,20 @@ function createOverlay() {
 let overlayInput = document.createElement('input')
 function startScreen() {
 	const overlay = createOverlay()
+	const imgHangman = document.createElement('img')
+	imgHangman.src = 'img/Hangman-icon2.png'
+	let startText = document.createElement('p')
+	startText.className = 'start-text'
+	startText.innerText = 'Välj ditt namn: '
 	overlay.overlayDiv.insertBefore(overlayInput, overlay.overlayButton)
+	overlay.overlayDiv.insertBefore(startText, overlayInput)
+	overlay.overlayDiv.insertBefore(imgHangman, startText)
+
 	overlay.overlayDiv.className = 'start'
-	overlay.overlayText.className = 'start-text'
-	overlay.overlayText.innerText = 'Vad heter du?'
+	overlay.overlayText.className = 'start-heading'
+	overlay.overlayText.innerText = 'Välkommen till Hangman-Game!'
 	overlay.overlayButton.innerText = 'Starta spelet'
+	
 
 	overlay.overlayButton.addEventListener('click', () => {
 		overlay.backgroundBlur.classList.add('invisible')
