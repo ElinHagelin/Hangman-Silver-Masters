@@ -124,7 +124,7 @@ function createOverlay(){
 	let overlayElements = {
 		backgroundBlur: document.createElement('div'),
 		overlayDiv: document.createElement('div'),
-		overlayText: document.createElement('p'),
+		overlayText: document.createElement('h1'),
 		overlayButton: document.createElement('button')
 	}
 
@@ -176,14 +176,13 @@ function winner () {
 
 function scoreboard () {
 	const overlay = createOverlay()
-	let scoreboardHead = document.createElement('h1')
 	let scoreboardText = {
 		name: document.createElement('p'),
 		guess: document.createElement('p'),
 		result: document.createElement('p')
 	}
-	scoreboardHead.className = 'scoreboard-head'
-	scoreboardHead.innerText = 'Scoreboard'
+	overlay.overlayText.className = 'scoreboard-head'
+	overlay.overlayText.innerText = 'Scoreboard'
 
 	scoreboardText.name.className = 'scoreboard-text-name'
 	scoreboardText.name.innerText = 'Namn:' 
@@ -194,9 +193,6 @@ function scoreboard () {
 	scoreboardText.result.className = 'scoreboard-text-result'
 	scoreboardText.result.innerText = 'Resultat: '
 
-	
-
-	overlay.overlayDiv.append(scoreboardHead)
 	overlay.overlayDiv.append(scoreboardText.name)
 	overlay.overlayDiv.append(scoreboardText.guess)
 	overlay.overlayDiv.append(scoreboardText.result)

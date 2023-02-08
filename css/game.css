@@ -36,7 +36,7 @@ body {
 .loser {
 	background-color: red;
 	opacity: 0.8;
-    width: 80vw;
+    width: 60vw;
 	height: 60vh;
 	border: solid white 2px;
     text-align: center;
@@ -53,7 +53,7 @@ body {
 
 .winner {
     background-color: #44D363;
-    width: 80vw;
+    width: 60vw;
     height: 60vh;
 	border: solid white 2px;
     text-align: center;
@@ -78,14 +78,14 @@ body {
 .scoreboard {
 	background-color: black;
 	opacity: 0.8;
-    width: 80vw;
+    width: min(900px, 70%);
     height: 60vh;
 	border: solid white 2px;
     text-align: center;
     color: white;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 0.5fr 0.5fr 0.5fr;
 	align-items: center;
 	padding: 2em;
 	margin: 0px;
@@ -95,7 +95,7 @@ body {
 	color: #F7FC17;
 	grid-row: 1;
 	grid-column: 2;
-	font-size: 50px;
+	font-size: 2em;
 }
 
 .scoreboard .overlay-button  {
@@ -118,10 +118,11 @@ body {
 }
 
 .scoreboard p {
-	font-size: 30px;
+	font-size: 1.5em;
 	color: #F7FC17;
 	margin: 0px;
 	align-self: flex-start;
+
 	
 }
 
@@ -145,7 +146,7 @@ body {
 }
 
 .hangman-figure {
-	max-height: 460px;
+	max-height: 457px;
 	text-align: center;
 	display: flex;
 	justify-content: center;
@@ -190,11 +191,11 @@ body {
 }
 
 
-@media screen and (min-width: 400px) {
+@media screen and (max-width: 510px) {
 
 	.quit-button,
 	.scoreboard-button {
-		font-size: 1.3em;
+		font-size: 1em;
 	}
 
 	.letter-div-container>div,
@@ -204,9 +205,56 @@ body {
 
 	.letter-div-container {
 		display: flex;
-		gap: 1em;
+		gap: 0.2em;
 		justify-content: center;
 		position: relative;
 		flex-flow: wrap;
 	}
+
+	.overlay div {
+		width: 60vw;
+		height: 30wv;
+
+	}
+
+	.overlay p {
+		font-size: 1.5em;
+	}
+
+	.wrong {
+		font-size: 1.2em;
+		margin: 0 0.3em;
+	}
+
+	.letter-div-container>div,
+	#letter-input {
+	margin-top: 0.5em; 
+	}
+
+	.scoreboard p {
+		font-size: 1em;
+		color: #F7FC17;
+		margin: 0px;
+		flex-flow: row;
+		
+	}
+
+	.scoreboard-head {
+		font-size: 1.5em;
+
+	}
+
+	.scoreboard-text-name {
+		grid-row: 2;
+	}
+	
+	.scoreboard-text-guess {
+		grid-row: 3;
+	}
+	
+	.scoreboard-text-result {
+		grid-row: 4;
+		gap: 1px;
+	}
+
 }
