@@ -237,7 +237,8 @@ function scoreboard() {
 		result: document.createElement('h2'),
 		box1: document.createElement('div'),
 		box2: document.createElement('div'),
-		box3: document.createElement('div')
+		box3: document.createElement('div'),
+		box4: document.createElement('div')
 	}
 
 
@@ -256,6 +257,7 @@ function scoreboard() {
 	scoreboardText.box1.className = 'scoreboard-box1'
 	scoreboardText.box2.className = 'scoreboard-box2'
 	scoreboardText.box3.className = 'scoreboard-box3'
+	scoreboardText.box4.className = 'scoreboard-box4'
 
 
 	scoreboardText.box1.append(scoreboardText.name)
@@ -265,17 +267,46 @@ function scoreboard() {
 	overlay.overlayDiv.append(scoreboardText.box1)
 	overlay.overlayDiv.append(scoreboardText.box2)
 	overlay.overlayDiv.append(scoreboardText.box3)
+	overlay.overlayDiv.append(scoreboardText.box4)
 
-	storedScores.forEach(element => {
-		let name = document.createElement('p')
-		name.innerText = element.name;
-		scoreboardText.box1.append(name)
-		let score = document.createElement('p')
-		score.innerText = element.score;
-		scoreboardText.box2.append(score)
-		let result = document.createElement('p')
-		result.innerText = element.result;
-		scoreboardText.box3.append(result)
+
+	// for (let index = storedScores.length; index <= (storedScores.length - 10); index--) {
+	// 	let name = document.createElement('p')
+	// 	name.innerText = storedScores[i].name;
+	// 	scoreboardText.box1.append(name)
+	// 	let score = document.createElement('p')
+	// 	score.innerText = storedScores[i].score;
+	// 	scoreboardText.box2.append(score)
+	// 	let result = document.createElement('p')
+	// 	result.innerText = storedScores[i].result;
+	// 	scoreboardText.box3.append(result)
+	// 	let deleteButton = document.createElement('button')
+	// 	deleteButton.innerText = 'Ta bort';
+	// 	scoreboardText.box4.append(deleteButton)
+
+	// }
+	let scoreIndex = 0
+
+	storedScores.slice().reverse().forEach(element => {
+
+		if (scoreIndex >= 10) {
+			return
+		}
+		else {
+			let name = document.createElement('p')
+			name.innerText = element.name;
+			scoreboardText.box1.append(name)
+			let score = document.createElement('p')
+			score.innerText = element.score;
+			scoreboardText.box2.append(score)
+			let result = document.createElement('p')
+			result.innerText = element.result;
+			scoreboardText.box3.append(result)
+			let deleteButton = document.createElement('button')
+			deleteButton.innerText = 'Ta bort';
+			scoreboardText.box4.append(deleteButton)
+		}
+		scoreIndex++
 	});
 
 	overlay.overlayDiv.className = 'scoreboard'

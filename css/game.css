@@ -65,7 +65,7 @@ body {
 }
 
 .winner {
-	background-color: #44D363;
+	background-color: #44d363;
 	width: 80vw;
 	height: 60vh;
 	border: solid white 2px;
@@ -159,14 +159,14 @@ body {
 }
 
 .wrong-letter-container {
-    min-height: 1.7em;
-    display: flex;
-    justify-content: center;
+	min-height: 1.7em;
+	display: flex;
+	justify-content: center;
 }
 
 .wrong {
-    font-size: 1.5em;
-    margin: 0 1em;
+	font-size: 1.5em;
+	margin: 0 1em;
 }
 
 
