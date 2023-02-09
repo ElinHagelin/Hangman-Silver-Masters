@@ -3,6 +3,7 @@ import wordList from "../JSON/word-list.json" assert { type: "json" };
 const letterDivContainer = document.querySelector('.letter-div-container')
 const letterInput = document.querySelector('#letter-input')
 const wrongLetterContainer = document.querySelector('.wrong-letter-container')
+const wrongGuessLeftContainer = document.querySelector('.wrong-guess-left-container')
 // const invisible = document.querySelector('.invisible')
 const body = document.querySelector('body')
 const scoreboardButton = document.querySelector('.scoreboard-button')
@@ -80,6 +81,7 @@ letterInput.addEventListener('keydown', event => {
 // Funktionen som räknar ut om man skriver in rätt eller fel bostav
 let wrongGuess = 0
 
+
 function compareLetters() {
 	let letterInWord = false
 
@@ -115,34 +117,46 @@ function compareLetters() {
 // Funktionen för att spelet ska rita ut gubben när man gissar på fel bokstav.
 
 function writeHangman() {
-
-	if (wrongGuess === 1) {
-		hangman.ground.classList.remove('invisible')
+	let wrongGuessLeft = 6 - wrongGuess;
+	let writeWrongGuess = document.createElement('h3');
+	writeWrongGuess.innerText = wrongGuessLeft + ' drag kvar';
+	
+	while (wrongGuessLeftContainer.firstChild) {
+	  wrongGuessLeftContainer.removeChild(wrongGuessLeftContainer.firstChild);
 	}
-
-	else if (wrongGuess === 2) {
-		hangman.scaffold.classList.remove('invisible')
+	
+	wrongGuessLeftContainer.append(writeWrongGuess);
+	
+	if (wrongGuess >= 1) {
+	  hangman.ground.classList.remove('invisible');
 	}
-
-	else if (wrongGuess === 3) {
-		hangman.head.classList.remove('invisible')
+	
+	if (wrongGuess >= 2) {
+	  hangman.scaffold.classList.remove('invisible');
 	}
-
-	else if (wrongGuess === 4) {
-		hangman.body.classList.remove('invisible')
+	
+	if (wrongGuess >= 3) {
+	  hangman.head.classList.remove('invisible');
 	}
-
-	else if (wrongGuess === 5) {
-		hangman.arms.classList.remove('invisible')
+	
+	if (wrongGuess >= 4) {
+	  hangman.body.classList.remove('invisible');
 	}
-
-	else {
-		hangman.legs.classList.remove('invisible')
+	
+	if (wrongGuess >= 5) {
+	  hangman.arms.classList.remove('invisible');
+	}
+	
+	if (wrongGuess >= 6) {
+	  hangman.legs.classList.remove('invisible');
 
 		loser()		// Här körs overlay för när man förlorar då hela gubben har ritats ut från och med här.
 
 	}
 }
+
+
+
 
 // Funktion för att skapa en overlay
 

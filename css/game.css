@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Indie+Flower&display=swap');
 
 body {
 	text-align: center;
@@ -222,6 +222,7 @@ body {
 .letter-div-container>div,
 #letter-input {
 	font-size: 1.3em;
+	font-family: 'Gloria Hallelujah', cursive;
 	padding: 0.5em;
 	width: 1em;
 	border-radius: 0.3em;
@@ -247,6 +248,20 @@ body {
 .wrong {
 	font-size: 1.5em;
 	margin: 0 1em;
+	text-decoration: line-through;
+	font-family: 'Gloria Hallelujah', cursive;
+}
+
+.wrong-guess-left-container {
+	position: absolute;
+	top: 6em;
+	left: 5em;
+	font-size: 2em;
+	border: solid 3px #36c579;
+	border-radius: 2em;
+	padding: 1em;
+	font-family: 'Gloria Hallelujah', cursive;
+	
 }
 
 
