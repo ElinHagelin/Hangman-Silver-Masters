@@ -58,11 +58,16 @@ body {
 .start .overlay-button {
 	margin: 1em;
 	box-shadow: 6px 6px 4px rgb(98, 98, 98);
-	
+
 }
 
 .start-heading {
-	font-family:'Indie Flower', cursive;
+	font-family: 'Indie Flower', cursive;
+}
+
+.name-input {
+	padding: 0.2em 0.4em;
+	text-align: center;
 }
 
 .overlay-button {
@@ -75,13 +80,18 @@ body {
 	box-shadow: 6px 6px 4px rgb(98, 98, 98);
 }
 
+.overlay-button:hover,
+.winner-scoreboard-button:hover {
+	background-color: rgb(197, 197, 197);
+}
+
 .loser .overlay-button {
 	box-shadow: 3px 3px 2px rgb(139, 135, 135);
 }
 
 .loser {
 	background-color: rgba(137, 35, 35, 0.6);
-    width: min(900px, 70%);
+	width: min(900px, 70%);
 	height: 60vh;
 	border: solid white 2px;
 	border-radius: 2em;
@@ -102,9 +112,9 @@ body {
 }
 
 .winner {
-    background-color: rgba(68, 211, 99, 0.6);
-    width: min(900px, 70%);
-    height: 60vh;
+	background-color: rgba(68, 211, 99, 0.6);
+	width: min(900px, 70%);
+	height: 60vh;
 	border: solid white 2px;
 	border-radius: 2em;
 	box-shadow: 10px 10px 5px rgb(98, 98, 98);
@@ -118,16 +128,16 @@ body {
 	margin: 0px;
 }
 
-	.winner-text {
+.winner-text {
 	font-size: 1.5em;
 }
 
 
 
 .scoreboard {
-	background-color:rgba(0, 0, 0, 0.6); 
-    width: min(900px, 70%);
-    height: 60vh;
+	background-color: rgba(0, 0, 0, 0.6);
+	width: min(900px, 70%);
+	height: 60vh;
 	border: solid white 2px;
 	border-radius: 2em;
 	box-shadow: 10px 10px 5px rgb(98, 98, 98);
@@ -162,7 +172,7 @@ body {
 	padding: 2em 3em;
 }
 
-.winner-scoreboard-button  {
+.winner-scoreboard-button {
 	font-size: 1.5em;
 	padding: 1em;
 	border-radius: 2em;
@@ -200,8 +210,26 @@ body {
 .scoreboard-button {
 	font-size: 1em;
 	padding: 0.3em 0.5em;
-	border-radius: 1em
+	border-radius: 1em;
+	box-shadow: 6px 6px 4px rgb(98, 98, 98);
+}
 
+.scoreboard-button {
+	background-color: #F7FC17;
+}
+
+.scoreboard-button:hover,
+.scoreboard-button:focus {
+	background-color: #dbdf00;
+}
+
+.quit-button {
+	background-color: rgba(185, 93, 93, 0.6);
+}
+
+.quit-button:hover,
+.quit-button:focus {
+	background-color: rgba(137, 35, 35, 0.6);
 }
 
 .hangman-figure {
@@ -222,19 +250,21 @@ body {
 .letter-div-container>div,
 #letter-input {
 	font-size: 1.3em;
-	padding: 0.5em;
 	width: 1em;
-	border-radius: 0.3em;
 	text-align: center;
-	border: 2px solid black;
 	margin-top: 1em;
+	border-bottom: 2px solid black;
 }
 
 .letter-div-container>div {
 	min-height: 1.3em;
+	padding: 0 0.3em;
 }
 
 #letter-input {
+	padding: 0.5em;
+	border-radius: 0.3em;
+	border: 2px solid black;
 	text-transform: uppercase;
 }
 
@@ -281,7 +311,7 @@ body {
 
 	.letter-div-container>div,
 	#letter-input {
-	margin-top: 0.5em; 
+		margin-top: 0.5em;
 	}
 
 	.overlay-button {
@@ -295,7 +325,7 @@ body {
 
 }
 
-	@media screen and (max-width: 550px) {
+@media screen and (max-width: 550px) {
 
 	.scoreboard p {
 		font-size: 1em;
@@ -323,17 +353,17 @@ body {
 		padding: 0px;
 		margin: 0px;
 	}
-	
+
 	.scoreboard-box-2 {
 		grid-row: 3;
 		grid-column: 1;
 	}
-	
+
 	.scoreboard-box-3 {
 		grid-row: 4;
 		grid-column: 1;
 	}
 
-	
+
 
 }

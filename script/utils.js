@@ -63,6 +63,7 @@ export default function generateRandomWord() {
 
 // Eventlyssnare på Enter-tangenten. Kör funktionen som kollar om gissningen matchar någon av bokstäverna i ordet och tömmer sen input-fältet. 
 
+
 letterInput.addEventListener('keydown', event => {
 	if (event.key == 'Enter' && letterInput.value != "") {
 		console.log(letterInput.value);
@@ -164,6 +165,8 @@ function createOverlay() {
 	return overlayElements;
 }
 
+// Funktion för overlay på startskärmen
+
 let overlayInput = document.createElement('input')
 function startScreen() {
 	const overlay = createOverlay()
@@ -172,6 +175,7 @@ function startScreen() {
 	let startText = document.createElement('p')
 	startText.className = 'start-text'
 	startText.innerText = 'Välj ditt namn: '
+	overlayInput.className = 'name-input'
 	overlay.overlayDiv.insertBefore(overlayInput, overlay.overlayButton)
 	overlay.overlayDiv.insertBefore(startText, overlayInput)
 	overlay.overlayDiv.insertBefore(imgHangman, startText)
@@ -180,10 +184,16 @@ function startScreen() {
 	overlay.overlayText.className = 'start-heading'
 	overlay.overlayText.innerText = 'Välkommen till Hangman-Game!'
 	overlay.overlayButton.innerText = 'Starta spelet'
-	
+
 
 	overlay.overlayButton.addEventListener('click', () => {
 		overlay.backgroundBlur.classList.add('invisible')
+	})
+
+	overlayInput.addEventListener('keydown', event => {
+		if (event.key == 'Enter' && overlayInput.value != "") {
+			overlay.backgroundBlur.classList.add('invisible')
+		}
 	})
 
 	// return overlayInput.value
@@ -194,7 +204,7 @@ function loser() {
 	const overlay = createOverlay()
 	let looserText = document.createElement('p')
 	looserText.className = 'looser-text'
-	looserText.innerText = 'Det rätta ordet var: '+ word 
+	looserText.innerText = 'Det rätta ordet var: ' + word
 	overlay.overlayDiv.className = 'loser'
 	overlay.overlayText.className = 'loser-text'
 	overlay.overlayText.innerText = 'AJDÅ, Du förlorade! '
@@ -220,8 +230,8 @@ function winner() {
 	buttonDiv.className = 'button-div'
 	winnerText2.className = 'winner-text'
 	winnerText.className = 'winner-text'
-	winnerText.innerText = 'Det rätta ordet var: '+ word 
-	winnerText2.innerText = 'Du vann på så här många gissningar: ' +  (guesses + 1)
+	winnerText.innerText = 'Det rätta ordet var: ' + word
+	winnerText2.innerText = 'Du vann på ' + (guesses + 1) + ' gissningar'
 	overlay.overlayDiv.className = 'winner'
 	overlay.overlayText.className = 'winner-heading'
 	overlay.overlayText.innerText = 'Grattis!'
@@ -283,7 +293,7 @@ function scoreboard() {
 	scoreboardText.box1.append(scoreboardText.name)
 	scoreboardText.box2.append(scoreboardText.guess)
 	scoreboardText.box3.append(scoreboardText.result)
-	
+
 	overlay.overlayDiv.append(scoreboardText.box1)
 	overlay.overlayDiv.append(scoreboardText.box2)
 	overlay.overlayDiv.append(scoreboardText.box3)
