@@ -64,6 +64,7 @@ export default function generateRandomWord() {
 
 // Eventlyssnare på Enter-tangenten. Kör funktionen som kollar om gissningen matchar någon av bokstäverna i ordet och tömmer sen input-fältet. 
 
+
 letterInput.addEventListener('keydown', event => {
 	if (event.key == 'Enter' && letterInput.value != "") {
 		console.log(letterInput.value);
@@ -178,6 +179,8 @@ function createOverlay() {
 	return overlayElements;
 }
 
+// Funktion för overlay på startskärmen
+
 let overlayInput = document.createElement('input')
 function startScreen() {
 	const overlay = createOverlay()
@@ -186,6 +189,7 @@ function startScreen() {
 	let startText = document.createElement('p')
 	startText.className = 'start-text'
 	startText.innerText = 'Välj ditt namn: '
+	overlayInput.className = 'name-input'
 	overlay.overlayDiv.insertBefore(overlayInput, overlay.overlayButton)
 	overlay.overlayDiv.insertBefore(startText, overlayInput)
 	overlay.overlayDiv.insertBefore(imgHangman, startText)
@@ -194,10 +198,16 @@ function startScreen() {
 	overlay.overlayText.className = 'start-heading'
 	overlay.overlayText.innerText = 'Välkommen till Hangman-Game!'
 	overlay.overlayButton.innerText = 'Starta spelet'
-	
+
 
 	overlay.overlayButton.addEventListener('click', () => {
 		overlay.backgroundBlur.classList.add('invisible')
+	})
+
+	overlayInput.addEventListener('keydown', event => {
+		if (event.key == 'Enter' && overlayInput.value != "") {
+			overlay.backgroundBlur.classList.add('invisible')
+		}
 	})
 
 	// return overlayInput.value
@@ -208,7 +218,7 @@ function loser() {
 	const overlay = createOverlay()
 	let looserText = document.createElement('p')
 	looserText.className = 'looser-text'
-	looserText.innerText = 'Det rätta ordet var: '+ word 
+	looserText.innerText = 'Det rätta ordet var: ' + word
 	overlay.overlayDiv.className = 'loser'
 	overlay.overlayText.className = 'loser-text'
 	overlay.overlayText.innerText = 'AJDÅ, Du förlorade! '
@@ -234,8 +244,8 @@ function winner() {
 	buttonDiv.className = 'button-div'
 	winnerText2.className = 'winner-text'
 	winnerText.className = 'winner-text'
-	winnerText.innerText = 'Det rätta ordet var: '+ word 
-	winnerText2.innerText = 'Du vann på så här många gissningar: ' +  (guesses + 1)
+	winnerText.innerText = 'Det rätta ordet var: ' + word
+	winnerText2.innerText = 'Du vann på ' + (guesses + 1) + ' gissningar'
 	overlay.overlayDiv.className = 'winner'
 	overlay.overlayText.className = 'winner-heading'
 	overlay.overlayText.innerText = 'Grattis!'
@@ -267,6 +277,8 @@ function scoreboard() {
 	const storedStringScores = localStorage.getItem(LS_KEY)
 	const storedScores = JSON.parse(storedStringScores)
 	const overlay = createOverlay()
+	let scoreIndex = 0
+	const sortBestToWorst = findBestScores(scoreArrayCopy)
 	let scoreboardText = {
 		name: document.createElement('h2'),
 		guess: document.createElement('h2'),
@@ -274,7 +286,9 @@ function scoreboard() {
 		box1: document.createElement('div'),
 		box2: document.createElement('div'),
 		box3: document.createElement('div'),
-		box4: document.createElement('div')
+		box4: document.createElement('div'),
+		sortLatestButton: document.createElement('button'),
+		sortBestButton: document.createElement('button')
 	}
 	overlay.overlayText.className = 'scoreboard-head'
 	overlay.overlayText.innerText = 'Scoreboard'
@@ -293,17 +307,41 @@ function scoreboard() {
 	scoreboardText.box3.className = 'scoreboard-box3'
 	scoreboardText.box4.className = 'scoreboard-box4'
 
+	scoreboardText.sortLatestButton.className = 'sort-latest-button'
+	scoreboardText.sortLatestButton.innerText = 'Senaste'
+	scoreboardText.sortBestButton.className = 'sort-best-button'
+	scoreboardText.sortBestButton.innerText = 'Bästa'
+
 
 	scoreboardText.box1.append(scoreboardText.name)
 	scoreboardText.box2.append(scoreboardText.guess)
 	scoreboardText.box3.append(scoreboardText.result)
-	
+
 	overlay.overlayDiv.append(scoreboardText.box1)
 	overlay.overlayDiv.append(scoreboardText.box2)
 	overlay.overlayDiv.append(scoreboardText.box3)
 	overlay.overlayDiv.append(scoreboardText.box4)
+	overlay.overlayDiv.append(scoreboardText.sortLatestButton)
+	overlay.overlayDiv.append(scoreboardText.sortBestButton)
 
-	let scoreIndex = 0
+	// Funktion som skapar en poänglista på scoreboarden
+
+	function CreateScorelist(element) {
+		let name = document.createElement('p')
+		name.innerText = element.name;
+		scoreboardText.box1.append(name)
+		let score = document.createElement('p')
+		score.innerText = element.score;
+		scoreboardText.box2.append(score)
+		let result = document.createElement('p')
+		result.innerText = element.result;
+		scoreboardText.box3.append(result)
+		let deleteButton = document.createElement('button')
+		deleteButton.innerText = 'Ta bort';
+		scoreboardText.box4.append(deleteButton)
+	}
+
+	// Skriver ut poänglistan från nyaste till äldsta spelomgången
 
 	storedScores.slice().reverse().forEach(element => {
 
@@ -311,21 +349,16 @@ function scoreboard() {
 			return
 		}
 		else {
-			let name = document.createElement('p')
-			name.innerText = element.name;
-			scoreboardText.box1.append(name)
-			let score = document.createElement('p')
-			score.innerText = element.score;
-			scoreboardText.box2.append(score)
-			let result = document.createElement('p')
-			result.innerText = element.result;
-			scoreboardText.box3.append(result)
-			let deleteButton = document.createElement('button')
-			deleteButton.innerText = 'Ta bort';
-			scoreboardText.box4.append(deleteButton)
+			CreateScorelist(element)
 		}
 		scoreIndex++
 	});
+
+	// Tar listan vi gjorde i findBestScores-funktionen(som sorterar omgångarna från bäst till sämst poäng) och skriver ut det på scoreboarden.
+
+	// sortBestToWorst.forEach(element => {
+	// 	CreateScorelist(element)
+	// })
 
 	overlay.overlayDiv.className = 'scoreboard'
 	overlay.overlayButton.innerText = 'Spela igen'
@@ -350,6 +383,8 @@ function scoreboard() {
 		//Stänger overlayen när man klickar utanför div-en
 	})
 }
+
+
 
 function storeScore() {
 	const matchRound = {
@@ -388,3 +423,34 @@ function checkResult(result) {
 	}
 }
 
+const scoreStringArray = localStorage.getItem(LS_KEY)
+let scoresParsed = JSON.parse(scoreStringArray)
+const scoreArrayCopy = scoresParsed.concat()
+
+console.log(scoresParsed);
+console.log(scoreArrayCopy);
+// console.log(findBestScores(scoreArrayCopy));
+// findBestScores(scoreArrayCopy)
+
+
+function findBestScores(list) {
+	const bestScoreArray = []
+	let showBestScore = null;
+
+	for (let check = 0; check < 10; check++) {
+		let bestScoreSoFar = null;
+		let bestScoreIndex = null;
+
+		for (let j = 0; j < list.length; j++) {
+			if (bestScoreSoFar === null || list[j].score < bestScoreSoFar) {
+				bestScoreSoFar = list[j].score;
+				bestScoreIndex = j;
+			}
+		}
+		bestScoreArray.push(list[bestScoreIndex]);
+
+		list.splice(bestScoreIndex, 1);
+	}
+	console.log(bestScoreArray);
+	return bestScoreArray
+}
