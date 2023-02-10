@@ -130,6 +130,7 @@ function writeHangman() {
 	
 	if (wrongGuess >= 1) {
 	  hangman.ground.classList.remove('invisible');
+	  wrongGuessLeftContainer.classList.remove('invisible')
 	}
 	
 	if (wrongGuess >= 2) {
