@@ -157,9 +157,6 @@ function writeHangman() {
 	}
 }
 
-
-
-
 // Funktion för att skapa en overlay
 
 function createOverlay() {
