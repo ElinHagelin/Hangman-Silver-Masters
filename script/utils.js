@@ -276,7 +276,7 @@ function scoreboard() {
 	const storedScores = JSON.parse(storedStringScores)
 	const overlay = createOverlay()
 	let scoreIndex = 0
-	const sortByBest = findBestScores(scoreArrayCopy)
+	let sortByBest = findBestScores(scoreArrayCopy)
 	let sortByLatest = storedScores.slice().reverse()
 	let scoreboardText = {
 		name: document.createElement('h2'),
@@ -321,19 +321,11 @@ function scoreboard() {
 	overlay.overlayDiv.append(scoreboardText.box4)
 	overlay.overlayDiv.append(scoreboardText.sortButton)
 	
+	
+	 
+	
 
-	 let sortButtonState = true
-		scoreboardText.sortButton.addEventListener('click', () => {
-			sortButtonState = !sortButtonState
-			if (sortButtonState = false) {
-				clearScoreList()
-				showScores(sortByLatest)
-			} else {
-				clearScoreList()
-				showScores(sortByBest)
-			}
-			displayList() 
-		})
+
 	// Funktion som skapar en poänglista på scoreboarden
 
 	// function CreateScorelist(element, list) {
@@ -368,30 +360,21 @@ function scoreboard() {
 		  listItem.appendChild(deleteButton);
 
 		  deleteButton.addEventListener('click', () => listItem.remove())
+		  	scoreboardText.box1.appendChild(listItem);
+			  console.log(listItem)
 		}
-	  
-		overlay.overlayDiv.appendChild(scoreList);
+	
 		return scoreList
+		
 	  }
-	  let listToClear = showScores(sortByBest)
 
-	  function clearScoreList() {
-		listToClear.remove()
-	}
+	  
+	 
+
+	
 	
 
-	function displayList() {
-	let list1 = sortByLatest
-	let list2 = sortByBest
-		let list;
-		if (sortButtonState === false) {
-		  list = list1;
-		} else {
-		  list = list2;
-		}
-		document.getElementById("scoreboard").innerHTML = list;
-	  }
-
+	  
 	console.log(sortByLatest, sortByBest);
 	
 	// .forEach(element => {
