@@ -8,6 +8,13 @@ const wrongGuessLeftContainer = document.querySelector('.wrong-guess-left-contai
 const body = document.querySelector('body')
 const scoreboardButton = document.querySelector('.scoreboard-button')
 
+
+let easyWordList = wordList.filter(word => word.length > 12)
+let mediumWordList = wordList.filter(word => word.length > 6 && word.length < 12)
+let hardWordList = wordList.filter(word => word.length < 6)
+
+console.log(mediumWordList);
+
 let letterArray = []
 let divArray = []
 let guessArray = []
@@ -200,11 +207,13 @@ function startScreen() {
 
 	overlay.overlayButton.addEventListener('click', () => {
 		overlay.backgroundBlur.classList.add('invisible')
+		generateRandomWord()
 	})
 
 	overlayInput.addEventListener('keydown', event => {
 		if (event.key == 'Enter' && overlayInput.value != "") {
 			overlay.backgroundBlur.classList.add('invisible')
+			generateRandomWord()
 		}
 	})
 
