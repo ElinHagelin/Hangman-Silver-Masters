@@ -391,13 +391,12 @@ function scoreboard() {
 		if (scoreboardElements.checkbox.checked) {
 			clearScoreList()
 			showScores(sortByBest)
-			console.log('sortera bässt först');
+			console.log('sortera bäst först');
 		} else {
 			clearScoreList()
 			showScores(sortByLatest)
 			console.log('sortera senast först');
 		}
-		event.stopPropagation()
 	})
 
 
