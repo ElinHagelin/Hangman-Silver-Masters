@@ -292,7 +292,7 @@ body {
 	border-radius: 2em;
 	padding: 1em;
 	font-family: 'Gloria Hallelujah', cursive;
-	
+
 }
 
 
@@ -363,14 +363,14 @@ body {
 		padding-left: 0.5em;
 	}
 
-	.scoreboard-box-1 {
-		grid-row: 2;
+	.listBox {
+		grid-column: 1 / span 3;
 		grid-column: 1;
 		padding: 0px;
 		margin: 0px;
 	}
 
-	.scoreboard-box-2 {
+	/* .scoreboard-box-2 {
 		grid-row: 3;
 		grid-column: 1;
 	}
@@ -378,8 +378,19 @@ body {
 	.scoreboard-box-3 {
 		grid-row: 4;
 		grid-column: 1;
-	}
+	} */
 
 
 
+}
+
+ul>li {
+	display: flex;
+	justify-content: space-between;
+}
+
+#checkbox,
+label {
+	grid-row: 1;
+	grid-column: 3;
 }
