@@ -45,7 +45,7 @@ scoreboardButton.addEventListener('click', () => {
 	scoreboard()
 })
 
-export default function generateRandomWord() {
+function generateRandomWord() {
 	word = wordList[Math.floor(Math.random() * wordList.length)];
 
 	// Slumpar fram ett ord ur listan
@@ -66,7 +66,7 @@ export default function generateRandomWord() {
 		letterDivContainer.append(letterDiv)
 		console.log(letter);
 	}
-	startScreen()
+	//startScreen()
 }
 
 // Eventlyssnare på Enter-tangenten. Kör funktionen som kollar om gissningen matchar någon av bokstäverna i ordet och tömmer sen input-fältet. 
@@ -187,7 +187,8 @@ function createOverlay() {
 // Funktion för overlay på startskärmen
 
 let overlayInput = document.createElement('input')
-function startScreen() {
+
+export default function startScreen() {
 	const overlay = createOverlay()
 	const imgHangman = document.createElement('img')
 	imgHangman.src = 'img/Hangman-icon2.png'
@@ -213,7 +214,7 @@ function startScreen() {
 	overlayInput.addEventListener('keydown', event => {
 		if (event.key == 'Enter' && overlayInput.value != "") {
 			overlay.backgroundBlur.classList.add('invisible')
-			generateRandomWord()
+		generateRandomWord()
 		}
 	})
 
