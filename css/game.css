@@ -137,15 +137,15 @@ body {
 .scoreboard {
 	background-color: rgba(0, 0, 0, 0.6);
 	width: min(900px, 70%);
-	height: 60vh;
+	height: min(900px, 80%);
 	border: solid white 2px;
 	border-radius: 2em;
 	box-shadow: 10px 10px 5px rgb(98, 98, 98);
 	text-align: center;
 	color: white;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: 0.5fr 0.5fr 0.5fr;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
 	align-items: center;
 	padding: 2.5em;
 	margin: 0px;
@@ -154,14 +154,12 @@ body {
 .scoreboard-head {
 	color: #F7FC17;
 	grid-row: 1;
-	grid-column: 1 / span 3;
 	font-size: 2em;
 	margin: 0px 0px 10px 0px;
 }
 
 .scoreboard .overlay-button {
 	grid-row: 4;
-	grid-column: 2;
 	justify-self: center;
 	box-shadow: 6px 6px 4px rgb(98, 98, 98);
 }
@@ -187,25 +185,13 @@ body {
 	align-self: flex-start;
 }
 
-.scoreboard h2 {
-	font-size: 1.4em;
-}
-
-.scoreboard-text-name {
+div .list-box {
 	grid-row: 2;
-	margin: 0px;
 }
 
-.scoreboard-text-guess {
-	grid-row: 2;
-	margin: 0px;
+li {
+	max-width: 40em;
 }
-
-.scoreboard-text-result {
-	grid-row: 2;
-	margin: 0px;
-}
-
 .quit-button,
 .scoreboard-button {
 	font-size: 1em;
@@ -284,16 +270,34 @@ body {
 }
 
 .wrong-guess-left-container {
-	position: absolute;
+	position: relative;
+	width: 5em;
 	top: 6em;
-	left: 5em;
+	left: 2em;
 	font-size: 2em;
 	border: solid 3px #36c579;
 	border-radius: 2em;
 	padding: 1em;
 	font-family: 'Gloria Hallelujah', cursive;
+	margin: 0px;
 
 }
+
+h3 {
+	margin: 0px;
+}
+
+@media screen and (max-width: 1000px) {
+	.wrong-guess-left-container {
+		position: sticky;
+		width: 4em;
+		top: 5em;
+		left: 40em;
+		font-size: 1em;
+		margin-right: 3em;
+	}
+}
+	
 
 
 @media screen and (max-width: 800px) {
@@ -350,12 +354,14 @@ body {
 		grid-column: 1;
 	}
 
-	.scoreboard .overlay-button {
-		grid-column: 1 / span 3;
-	}
+	
 
 	.scoreboard-head {
 		font-size: 1.5em;
+	}
+
+	.scoreboard {
+		min-height: 60vh;
 	}
 
 	h2.style {
@@ -363,12 +369,7 @@ body {
 		padding-left: 0.5em;
 	}
 
-	.listBox {
-		grid-column: 1 / span 3;
-		grid-column: 1;
-		padding: 0px;
-		margin: 0px;
-	}
+	
 
 	/* .scoreboard-box-2 {
 		grid-row: 3;
