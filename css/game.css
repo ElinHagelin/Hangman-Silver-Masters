@@ -204,7 +204,7 @@ li {
 
 .scoreboard-button {
 	background-color: #F7FC17;
-	
+
 }
 
 .scoreboard-button:hover,
@@ -233,7 +233,7 @@ li {
 	position: relative;
 	bottom: 14em;
 	z-index: -1;
-	
+
 }
 
 .letter-div-container {
@@ -243,7 +243,7 @@ li {
 	position: relative;
 	flex-flow: row wrap;
 	bottom: 12em;
-	
+
 }
 
 .letter-div-container>div,
@@ -321,18 +321,19 @@ h3 {
 
 	#letter-input {
 		bottom: 5em;
-	
+
 	}
-	
+
 	.wrong-letter-container {
 		bottom: 5em;
 	}
+
 	.letter-div-container {
 		bottom: 5em;
-		
+
 	}
 }
-	
+
 
 
 @media screen and (max-width: 800px) {
@@ -389,7 +390,7 @@ h3 {
 		grid-column: 1;
 	}
 
-	
+
 
 	.scoreboard-head {
 		font-size: 1.5em;
@@ -404,7 +405,7 @@ h3 {
 		padding-left: 0.5em;
 	}
 
-	
+
 
 	/* .scoreboard-box-2 {
 		grid-row: 3;

@@ -1,12 +1,13 @@
 import wordList from "../JSON/word-list.json" assert { type: "json" };
 import kidsWordList from "../JSON/kids-word-list.json" assert { type: "json" };
+// import { scoreboard } from './scoreboard.js'
 
 const letterDivContainer = document.querySelector('.letter-div-container')
 const letterInput = document.querySelector('#letter-input')
 const wrongLetterContainer = document.querySelector('.wrong-letter-container')
 const wrongGuessLeftContainer = document.querySelector('.wrong-guess-left-container')
-// const invisible = document.querySelector('.invisible')
 const body = document.querySelector('body')
+const quitButton = document.querySelector('.quit-button')
 const scoreboardButton = document.querySelector('.scoreboard-button')
 
 
@@ -17,13 +18,12 @@ let hardWordList = wordList.filter(word => word.length < 6)
 
 let letterArray = []
 let divArray = []
-let guessArray = []
+let rightGuessArray = []
+let wrongGuessArray = []
 let validKeys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'å', 'ä', 'ö', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Å', 'Ä', 'Ö', 'Backspace']
 
-//Möjlighet att byta ut validKeys-arrayen med kod från discord. split() och map()
 
-
-// Variabel för hela gubben uppdelad i objekt
+// Variabel för hela gubben sparad i ett objekt
 const hangman = {
 	ground: document.querySelector('#ground'),
 	scaffold: document.querySelector('#scaffold'),
@@ -39,14 +39,21 @@ let word = ''
 let guesses = 0
 const LS_KEY = 'hangman-score'
 let result = false
+let wrongGuess = 0
+const overlayInput = document.createElement('input')
 
 // När man trycker på "poänglista" så kommer scoreboarden upp, funktionen för scorebord finns längre ner i koden.
 scoreboardButton.addEventListener('click', () => {
 	scoreboard()
 })
 
-function generateRandomWord() {
-	word = wordList[Math.floor(Math.random() * wordList.length)];
+quitButton.addEventListener('click', () => {
+	overlayInput.value = ''
+	location.reload();
+})
+
+function generateRandomWord(list) {
+	word = list[Math.floor(Math.random() * list.length)];
 
 	// Slumpar fram ett ord ur listan
 
@@ -66,7 +73,6 @@ function generateRandomWord() {
 		letterDivContainer.append(letterDiv)
 		console.log(letter);
 	}
-	//startScreen()
 }
 
 // Eventlyssnare på Enter-tangenten. Kör funktionen som kollar om gissningen matchar någon av bokstäverna i ordet och tömmer sen input-fältet. 
@@ -74,57 +80,55 @@ function generateRandomWord() {
 
 letterInput.addEventListener('keydown', event => {
 	if (event.key == 'Enter' && letterInput.value != "") {
-		console.log(letterInput.value);
 		compareLetters()
 		letterInput.value = ''
 		guesses = guesses + 1
-		console.log(guesses);
 	}
 	else if (validKeys.includes(event.key) == false) {
 		event.preventDefault()
-		console.log('fel');
+		console.log('skriv in en bokstav');
+	}
+	else if (rightGuessArray.includes(event.key) == true || wrongGuessArray.includes(event.key) == true) {
+		event.preventDefault()
+		console.log('du har redan gissat på den bokstaven');
 	}
 })
 
-// Funktionen som räknar ut om man skriver in rätt eller fel bostav
-let wrongGuess = 0
 
+// Funktionen som räknar ut om man skrivit in rätt eller fel bostav
 
 function compareLetters() {
 	let letterInWord = false
 
-
-	// Gör en loop som kollar om input matchar någon av bokstäverna i ordet. Variabeln blir då true
+	// Loop som kollar om input matchar någon av bokstäverna i ordet. Variabeln blir då true
 
 	for (let l = 0; l < letterArray.length; l++) {
 		if (letterInput.value === word[l]) {
 			divArray[l].innerText = letterInput.value.toUpperCase()
 			letterInWord = true
-			guessArray.push(letterInput.value)
+			rightGuessArray.push(letterInput.value)
 		}
 	}
 
-	console.log('guessArray = ' + guessArray);
-	// Om variabeln inte blev true läggs bokstaven ut ovanför istället
+	// Om variabeln inte blev true läggs bokstaven ut ovanför istället. När antal rätt gissade bokstäver stämmer med antalet bokstäver i ordet skapas vinnar-overlay.
 
 	if (letterInWord === false) {
-
 		wrongGuess = wrongGuess + 1
 		const wrongLetter = document.createElement('p')
 		wrongLetter.classList.add('wrong')
 		wrongLetter.innerText = letterInput.value.toUpperCase()
+		wrongGuessArray.push(letterInput.value)
 		wrongLetterContainer.append(wrongLetter)
-		writeHangman(wrongGuess)
+		drawHangman(wrongGuess)
 	}
-	else if (letterArray.length === guessArray.length) {
+	else if (letterArray.length === rightGuessArray.length) {
 		winner()
 	}
-
 }
 
 // Funktionen för att spelet ska rita ut gubben när man gissar på fel bokstav.
 
-function writeHangman() {
+function drawHangman() {
 	let wrongGuessLeft = 6 - wrongGuess;
 	let writeWrongGuess = document.createElement('h3');
 	writeWrongGuess.innerText = wrongGuessLeft + ' drag kvar';
@@ -181,35 +185,32 @@ function createOverlay() {
 	return overlayElements;
 }
 
+
 // Funktion för overlay på startskärmen
 
-
-let overlayInput = document.createElement('input')
-
 export default function startScreen() {
-	const overlay = createOverlay()
+	let overlayElements = createOverlay()
 	const imgHangman = document.createElement('img')
 	imgHangman.src = 'img/Hangman-icon2.png'
-	let startText = document.createElement('p')
+	const startText = document.createElement('p')
 	startText.className = 'start-text'
-	startText.innerText = 'Välj ditt namn: '
+	startText.innerText = 'Skriv in ditt namn: '
 	overlayInput.className = 'name-input'
-	// overlayInput.setAttribute('required', '')
-	overlay.overlayDiv.insertBefore(overlayInput, overlay.overlayButton)
-	overlay.overlayDiv.insertBefore(startText, overlayInput)
-	overlay.overlayDiv.insertBefore(imgHangman, startText)
+	overlayElements.overlayDiv.className = 'start'
+	overlayElements.overlayText.className = 'start-heading'
+	overlayElements.overlayText.innerText = 'Välkommen till Hänga Gubbe!'
 
-	// overlayInput.placeholder = 'Skriv in ditt namn här'
 
-	overlay.overlayDiv.className = 'start'
-	overlay.overlayText.className = 'start-heading'
-	overlay.overlayText.innerText = 'Välkommen till Hangman-Game!'
+	overlayElements.overlayDiv.append(imgHangman)
+	overlayElements.overlayDiv.append(startText)
+	overlayElements.overlayDiv.append(overlayInput)
 
-	let buttonContainer = document.createElement('div')
-	let kidsButton = document.createElement('button')
-	let easyButton = document.createElement('button')
-	let mediumButton = document.createElement('button')
-	let hardButton = document.createElement('button')
+
+	const buttonContainer = document.createElement('div')
+	const kidsButton = document.createElement('button')
+	const easyButton = document.createElement('button')
+	const mediumButton = document.createElement('button')
+	const hardButton = document.createElement('button')
 	buttonContainer.className = 'button-container'
 	kidsButton.className = 'overlay-button'
 	easyButton.className = 'overlay-button'
@@ -225,68 +226,58 @@ export default function startScreen() {
 	buttonContainer.append(easyButton)
 	buttonContainer.append(mediumButton)
 	buttonContainer.append(hardButton)
-	overlay.overlayDiv.append(buttonContainer)
+	overlayElements.overlayDiv.append(buttonContainer)
 
 
+
+	if (overlayInput.value != '' || overlayInput.value != null) {
+	}
 
 	kidsButton.addEventListener('click', () => {
 		if (overlayInput != '') {
-			overlay.backgroundBlur.classList.add('invisible')
+			overlayElements.backgroundBlur.remove()
 			generateRandomWord(kidsWordList)
-
 		}
 	})
-
-	// ------------Jag försöker göra så att man endast kan komma vidare från start-overlay när man skrivit något i input-fältet------------funkar inte just nu-------
-
 	easyButton.addEventListener('click', () => {
 		if (overlayInput != '' || overlayInput != null) {
-			overlay.backgroundBlur.classList.add('invisible')
+			overlayElements.backgroundBlur.remove()
 			generateRandomWord(easyWordList)
-
 		}
-		// //else {
-		// 	easyButton.preventDefault()
-		// 	overlayInput.placeholder = 'Skriv in ditt namn här'
-		// }
 	})
-
-	// --------------------------------------------------
-
 	mediumButton.addEventListener('click', () => {
 		if (overlayInput != '') {
-			overlay.backgroundBlur.classList.add('invisible')
+			overlayElements.backgroundBlur.remove()
 			generateRandomWord(mediumWordList)
 
 		}
 	})
-
 	hardButton.addEventListener('click', () => {
 		if (overlayInput != '') {
-			overlay.backgroundBlur.classList.add('invisible')
+			overlayElements.backgroundBlur.remove()
 			generateRandomWord(hardWordList)
 
 		}
 	})
 }
 
-startScreen()
+// startScreen()
 
 // funktionen för overlay när man förlorar:
 
 function loser() {
-	const overlay = createOverlay()
+	let overlayElements = createOverlay()
 	let looserText = document.createElement('p')
 	let playAgainButton = document.createElement('button')
 	looserText.className = 'looser-text'
 	playAgainButton.className = 'overlay-button'
-	overlay.overlayDiv.className = 'loser'
-	overlay.overlayText.className = 'loser-text'
+	overlayElements.overlayDiv.className = 'loser'
+	overlayElements.overlayText.className = 'loser-text'
 	looserText.innerText = 'Det rätta ordet var: ' + word
 	playAgainButton.innerText = 'Spela igen'
-	overlay.overlayText.innerText = 'AJDÅ, Du förlorade! '
-	overlay.overlayDiv.append(looserText)
-	overlay.overlayDiv.append(playAgainButton)
+	overlayElements.overlayText.innerText = 'AJDÅ, Du förlorade! '
+	overlayElements.overlayDiv.append(looserText)
+	overlayElements.overlayDiv.append(playAgainButton)
 	storeScore()
 
 	playAgainButton.addEventListener('click', () => {
@@ -299,7 +290,7 @@ function loser() {
 
 function winner() {
 	result = true
-	const overlay = createOverlay()
+	let overlayElements = createOverlay()
 	let buttonDiv = document.createElement('div')
 	let scoreboardButton = document.createElement('button')
 	let winnerText = document.createElement('p')
@@ -310,16 +301,16 @@ function winner() {
 	winnerText.className = 'winner-text'
 	winnerText.innerText = 'Det rätta ordet var: ' + word
 	winnerText2.innerText = 'Du vann på ' + (guesses + 1) + ' gissningar'
-	overlay.overlayDiv.className = 'winner'
-	overlay.overlayText.className = 'winner-heading'
+	overlayElements.overlayDiv.className = 'winner'
+	overlayElements.overlayText.className = 'winner-heading'
 	playAgainButton.className = 'overlay-button'
-	overlay.overlayText.innerText = 'Grattis!'
+	overlayElements.overlayText.innerText = 'Grattis!'
 	playAgainButton.innerText = 'Spela igen'
 	scoreboardButton.className = 'winner-scoreboard-button'
 	scoreboardButton.innerText = 'Poängtavla'
-	overlay.overlayDiv.append(winnerText2)
-	overlay.overlayDiv.append(winnerText)
-	overlay.overlayDiv.append(buttonDiv)
+	overlayElements.overlayDiv.append(winnerText2)
+	overlayElements.overlayDiv.append(winnerText)
+	overlayElements.overlayDiv.append(buttonDiv)
 	buttonDiv.append(playAgainButton)
 	buttonDiv.append(scoreboardButton)
 	storeScore()
@@ -330,19 +321,20 @@ function winner() {
 	})
 
 	scoreboardButton.addEventListener('click', () => {
-		overlay.backgroundBlur.classList.add('invisible')
+
+		overlayElements.backgroundBlur.remove()
+		// overlay.backgroundBlur.classList.add('invisible')
 		scoreboard() //Byter overlay till scoreboard
 
 	})
 }
 
-// Här kommer funktionen för scoreboarden som är en overlay.
+// Funktion för scoreboarden som är en overlay.
 
 function scoreboard() {
 	const storedStringScores = localStorage.getItem(LS_KEY)
 	const storedScores = JSON.parse(storedStringScores)
-	const overlay = createOverlay()
-	let scoreIndex = 0
+	let overlayElements = createOverlay()
 	const sortByBest = findBestScores(scoreArrayCopy)
 	let sortByLatest = storedScores.slice().reverse()
 	let scoreboardElements = {
@@ -359,8 +351,8 @@ function scoreboard() {
 	scoreboardElements.switchButton.htmlFor = 'switch'
 
 
-	overlay.overlayText.className = 'scoreboard-head'
-	overlay.overlayText.innerText = 'Scoreboard'
+	overlayElements.overlayText.className = 'scoreboard-head'
+	overlayElements.overlayText.innerText = 'Scoreboard'
 
 	scoreboardElements.name.className = 'style scoreboard-text-name'
 	scoreboardElements.name.innerText = 'Namn:'
@@ -373,10 +365,10 @@ function scoreboard() {
 
 	scoreboardElements.listBox.className = 'list-box'
 
-	overlay.overlayDiv.append(scoreboardElements.listBox)
+	overlayElements.overlayDiv.append(scoreboardElements.listBox)
 
-	overlay.overlayDiv.append(scoreboardElements.checkbox)
-	overlay.overlayDiv.append(scoreboardElements.switchButton)
+	overlayElements.overlayDiv.append(scoreboardElements.checkbox)
+	overlayElements.overlayDiv.append(scoreboardElements.switchButton)
 
 
 	showScores(sortByLatest) // Startar med listan som visar senast resultat först på scoreboarden.
@@ -402,6 +394,7 @@ function scoreboard() {
 	function showScores(list) {
 		const scoreList = document.createElement("ul");
 		scoreList.className = 'score-list'
+		overlayElements.overlayDiv.className = 'scoreboard'
 
 		for (let i = 0; i < 10; i++) {
 			const listItem = document.createElement("li");
@@ -427,25 +420,14 @@ function scoreboard() {
 	}
 
 
-	overlay.overlayDiv.className = 'scoreboard'
-	// overlay.overlayButton.innerText = 'Spela igen'
-
-	// overlay.overlayButton.addEventListener('click', event => {
-	// 	console.log('clicked')
-	// 	location.reload();  //Laddar om sidan
-	// 	event.stopPropagation()
-
-	// 	//Stoppar bubblingen uppåt så att overlayen bara stängs när man klickar utanför
-	// })
-
-	overlay.overlayDiv.addEventListener('click', event => {
+	overlayElements.overlayDiv.addEventListener('click', event => {
 		event.stopPropagation()
 
 		//Stoppar bubblingen uppåt så att overlayen bara stängs när man klickar utanför overlayen
 	})
 
-	overlay.backgroundBlur.addEventListener('click', event => {
-		overlay.backgroundBlur.classList.add('invisible')
+	overlayElements.backgroundBlur.addEventListener('click', event => {
+		overlayElements.backgroundBlur.remove()
 
 		//Stänger overlayen när man klickar utanför div-en
 	})
@@ -509,3 +491,5 @@ function findBestScores(list) {
 	}
 	return bestScoreArray
 }
+
+// export { createOverlay, result, overlayElements }
