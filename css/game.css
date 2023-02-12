@@ -174,7 +174,7 @@ body {
 }
 
 .scoreboard p {
-	font-size: 1.2em;
+	font-size: 1.5em;
 	color: #F7FC17;
 	margin: 0px;
 	align-self: flex-start;
@@ -186,7 +186,14 @@ div .list-box {
 
 li {
 	max-width: 40em;
+	flex-flow: wrap;
+	border: #F7FC17 solid 1px;
+	border-radius: 1em;
+	padding: 0.5em;
+	margin: 0.5em;
 }
+
+
 .quit-button,
 .scoreboard-button {
 	font-size: 1em;
@@ -197,6 +204,7 @@ li {
 
 .scoreboard-button {
 	background-color: #F7FC17;
+	
 }
 
 .scoreboard-button:hover,
@@ -206,12 +214,15 @@ li {
 
 .quit-button {
 	background-color: rgba(185, 93, 93, 0.6);
+
 }
 
 .quit-button:hover,
 .quit-button:focus {
 	background-color: rgba(137, 35, 35, 0.6);
 }
+
+
 
 .hangman-figure {
 	max-height: 457px;
@@ -221,6 +232,7 @@ li {
 	margin: 0px;
 	position: relative;
 	bottom: 14em;
+	z-index: -1;
 	
 }
 

@@ -13,6 +13,15 @@ label {
 	display: block;
 	border-radius: 100px;
 	position: relative;
+	left: -4em;
+}
+
+@media screen and (max-width: 600px) {
+	label {
+		left: -2em;
+		width: 60px;
+		height: 30px;
+	}
 }
 
 label:after {
@@ -37,3 +46,4 @@ input:checked+label:after {
 	left: calc(100% - 1px);
 	transform: translateX(-100%);
 }
+

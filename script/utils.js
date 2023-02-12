@@ -373,13 +373,7 @@ function scoreboard() {
 
 	scoreboardElements.listBox.className = 'list-box'
 
-
-
-
-
-
 	overlay.overlayDiv.append(scoreboardElements.listBox)
-
 
 	overlay.overlayDiv.append(scoreboardElements.checkbox)
 	overlay.overlayDiv.append(scoreboardElements.switchButton)
