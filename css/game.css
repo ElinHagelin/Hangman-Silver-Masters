@@ -3,6 +3,7 @@
 body {
 	text-align: center;
 	margin: 0px;
+	overflow: hidden;
 }
 
 .invisible {
@@ -217,6 +218,10 @@ li {
 	text-align: center;
 	display: flex;
 	justify-content: center;
+	margin: 0px;
+	position: relative;
+	bottom: 14em;
+	
 }
 
 .letter-div-container {
@@ -225,6 +230,8 @@ li {
 	justify-content: center;
 	position: relative;
 	flex-flow: row wrap;
+	bottom: 12em;
+	
 }
 
 .letter-div-container>div,
@@ -248,12 +255,17 @@ li {
 	border-radius: 0.3em;
 	border: 2px solid black;
 	text-transform: uppercase;
+	position: relative;
+	bottom: 9.5em;
+
 }
 
 .wrong-letter-container {
 	min-height: 1.7em;
 	display: flex;
 	justify-content: center;
+	position: relative;
+	bottom: 11em;
 }
 
 .wrong {
@@ -265,10 +277,10 @@ li {
 
 .wrong-guess-left-container {
 	position: relative;
-	width: 5em;
+	width: 4em;
 	top: 6em;
 	left: 2em;
-	font-size: 2em;
+	font-size: 1.5em;
 	border: solid 3px #36c579;
 	border-radius: 2em;
 	padding: 1em;
@@ -285,10 +297,27 @@ h3 {
 	.wrong-guess-left-container {
 		position: sticky;
 		width: 4em;
-		top: 5em;
+		top: 16em;
 		left: 40em;
 		font-size: 1em;
 		margin-right: 3em;
+	}
+
+	.hangman-figure {
+		bottom: 7em;
+	}
+
+	#letter-input {
+		bottom: 5em;
+	
+	}
+	
+	.wrong-letter-container {
+		bottom: 5em;
+	}
+	.letter-div-container {
+		bottom: 5em;
+		
 	}
 }
 	

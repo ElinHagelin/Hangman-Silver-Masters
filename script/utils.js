@@ -183,6 +183,7 @@ function createOverlay() {
 
 // Funktion för overlay på startskärmen
 
+
 let overlayInput = document.createElement('input')
 
 export default function startScreen() {
@@ -225,12 +226,14 @@ export default function startScreen() {
 	buttonContainer.append(mediumButton)
 	buttonContainer.append(hardButton)
 	overlay.overlayDiv.append(buttonContainer)
-
+	
+	
 
 	kidsButton.addEventListener('click', () => {
 		if (overlayInput != '') {
 			overlay.backgroundBlur.classList.add('invisible')
 			generateRandomWord(kidsWordList)
+			
 		}
 	})
 
@@ -240,11 +243,12 @@ export default function startScreen() {
 		if (overlayInput != '' || overlayInput != null) {
 			overlay.backgroundBlur.classList.add('invisible')
 			generateRandomWord(easyWordList)
+			
 		}
-		else {
-			easyButton.preventDefault()
-			overlayInput.placeholder = 'Skriv in ditt namn här'
-		}
+		// //else {
+		// 	easyButton.preventDefault()
+		// 	overlayInput.placeholder = 'Skriv in ditt namn här'
+		// }
 	})
 
 	// --------------------------------------------------
@@ -253,6 +257,7 @@ export default function startScreen() {
 		if (overlayInput != '') {
 			overlay.backgroundBlur.classList.add('invisible')
 			generateRandomWord(mediumWordList)
+			
 		}
 	})
 
@@ -260,6 +265,7 @@ export default function startScreen() {
 		if (overlayInput != '') {
 			overlay.backgroundBlur.classList.add('invisible')
 			generateRandomWord(hardWordList)
+			
 		}
 	})
 }
