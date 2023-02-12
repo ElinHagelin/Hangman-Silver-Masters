@@ -8,7 +8,7 @@ label {
 	cursor: pointer;
 	text-indent: -9999px;
 	width: 70px;
-	height: 30px;
+	height: 32px;
 	background: grey;
 	display: block;
 	border-radius: 100px;
@@ -47,3 +47,6 @@ input:checked+label:after {
 	transform: translateX(-100%);
 }
 
+label:active:after {
+	width: 40px;
+}

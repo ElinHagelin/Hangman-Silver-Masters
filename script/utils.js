@@ -226,14 +226,14 @@ export default function startScreen() {
 	buttonContainer.append(mediumButton)
 	buttonContainer.append(hardButton)
 	overlay.overlayDiv.append(buttonContainer)
-	
-	
+
+
 
 	kidsButton.addEventListener('click', () => {
 		if (overlayInput != '') {
 			overlay.backgroundBlur.classList.add('invisible')
 			generateRandomWord(kidsWordList)
-			
+
 		}
 	})
 
@@ -243,7 +243,7 @@ export default function startScreen() {
 		if (overlayInput != '' || overlayInput != null) {
 			overlay.backgroundBlur.classList.add('invisible')
 			generateRandomWord(easyWordList)
-			
+
 		}
 		// //else {
 		// 	easyButton.preventDefault()
@@ -257,7 +257,7 @@ export default function startScreen() {
 		if (overlayInput != '') {
 			overlay.backgroundBlur.classList.add('invisible')
 			generateRandomWord(mediumWordList)
-			
+
 		}
 	})
 
@@ -265,7 +265,7 @@ export default function startScreen() {
 		if (overlayInput != '') {
 			overlay.backgroundBlur.classList.add('invisible')
 			generateRandomWord(hardWordList)
-			
+
 		}
 	})
 }
