@@ -1,4 +1,5 @@
 import wordList from "../JSON/word-list.json" assert { type: "json" };
+import kidsWordList from "../JSON/kids-word-list.json" assert { type: "json" };
 
 const letterDivContainer = document.querySelector('.letter-div-container')
 const letterInput = document.querySelector('#letter-input')
@@ -13,7 +14,6 @@ let easyWordList = wordList.filter(word => word.length > 12)
 let mediumWordList = wordList.filter(word => word.length > 6 && word.length < 12)
 let hardWordList = wordList.filter(word => word.length < 6)
 
-console.log(mediumWordList);
 
 let letterArray = []
 let divArray = []
@@ -171,15 +171,12 @@ function createOverlay() {
 		backgroundBlur: document.createElement('div'),
 		overlayDiv: document.createElement('div'),
 		overlayText: document.createElement('h1'),
-		overlayButton: document.createElement('button')
 	}
 
 	overlayElements.backgroundBlur.className = 'overlay'
-	overlayElements.overlayButton.className = 'overlay-button'
 	overlayElements.overlayDiv.classList.add = 'dialogue'
 	overlayElements.backgroundBlur.append(overlayElements.overlayDiv)
 	overlayElements.overlayDiv.append(overlayElements.overlayText)
-	overlayElements.overlayDiv.append(overlayElements.overlayButton)
 	body.append(overlayElements.backgroundBlur)
 	return overlayElements;
 }
@@ -196,45 +193,97 @@ export default function startScreen() {
 	startText.className = 'start-text'
 	startText.innerText = 'Välj ditt namn: '
 	overlayInput.className = 'name-input'
+	// overlayInput.setAttribute('required', '')
 	overlay.overlayDiv.insertBefore(overlayInput, overlay.overlayButton)
 	overlay.overlayDiv.insertBefore(startText, overlayInput)
 	overlay.overlayDiv.insertBefore(imgHangman, startText)
 
+	// overlayInput.placeholder = 'Skriv in ditt namn här'
+
 	overlay.overlayDiv.className = 'start'
 	overlay.overlayText.className = 'start-heading'
 	overlay.overlayText.innerText = 'Välkommen till Hangman-Game!'
-	overlay.overlayButton.innerText = 'Starta spelet'
+
+	let buttonContainer = document.createElement('div')
+	let kidsButton = document.createElement('button')
+	let easyButton = document.createElement('button')
+	let mediumButton = document.createElement('button')
+	let hardButton = document.createElement('button')
+	buttonContainer.className = 'button-container'
+	kidsButton.className = 'overlay-button'
+	easyButton.className = 'overlay-button'
+	mediumButton.className = 'overlay-button'
+	hardButton.className = 'overlay-button'
+	kidsButton.innerText = 'barn'
+	easyButton.innerText = 'Lätt'
+	mediumButton.innerText = 'Mellan'
+	hardButton.innerText = 'Svårt'
 
 
-	overlay.overlayButton.addEventListener('click', () => {
-		overlay.backgroundBlur.classList.add('invisible')
-		generateRandomWord()
-	})
+	buttonContainer.append(kidsButton)
+	buttonContainer.append(easyButton)
+	buttonContainer.append(mediumButton)
+	buttonContainer.append(hardButton)
+	overlay.overlayDiv.append(buttonContainer)
 
-	overlayInput.addEventListener('keydown', event => {
-		if (event.key == 'Enter' && overlayInput.value != "") {
+
+	kidsButton.addEventListener('click', () => {
+		if (overlayInput != '') {
 			overlay.backgroundBlur.classList.add('invisible')
-		generateRandomWord()
+			generateRandomWord(kidsWordList)
 		}
 	})
 
-	// return overlayInput.value
+	// ------------Jag försöker göra så att man endast kan komma vidare från start-overlay när man skrivit något i input-fältet------------funkar inte just nu-------
+
+	easyButton.addEventListener('click', () => {
+		if (overlayInput != '' || overlayInput != null) {
+			overlay.backgroundBlur.classList.add('invisible')
+			generateRandomWord(easyWordList)
+		}
+		else {
+			easyButton.preventDefault()
+			overlayInput.placeholder = 'Skriv in ditt namn här'
+		}
+	})
+
+	// --------------------------------------------------
+
+	mediumButton.addEventListener('click', () => {
+		if (overlayInput != '') {
+			overlay.backgroundBlur.classList.add('invisible')
+			generateRandomWord(mediumWordList)
+		}
+	})
+
+	hardButton.addEventListener('click', () => {
+		if (overlayInput != '') {
+			overlay.backgroundBlur.classList.add('invisible')
+			generateRandomWord(hardWordList)
+		}
+	})
 }
+
+startScreen()
+
 // funktionen för overlay när man förlorar:
 
 function loser() {
 	const overlay = createOverlay()
 	let looserText = document.createElement('p')
+	let playAgainButton = document.createElement('button')
 	looserText.className = 'looser-text'
-	looserText.innerText = 'Det rätta ordet var: ' + word
+	playAgainButton.className = 'overlay-button'
 	overlay.overlayDiv.className = 'loser'
 	overlay.overlayText.className = 'loser-text'
+	looserText.innerText = 'Det rätta ordet var: ' + word
+	playAgainButton.innerText = 'Spela igen'
 	overlay.overlayText.innerText = 'AJDÅ, Du förlorade! '
-	overlay.overlayButton.innerText = 'Spela igen'
-	overlay.overlayDiv.insertBefore(looserText, overlay.overlayButton)
+	overlay.overlayDiv.append(looserText)
+	overlay.overlayDiv.append(playAgainButton)
 	storeScore()
 
-	overlay.overlayButton.addEventListener('click', () => {
+	playAgainButton.addEventListener('click', () => {
 		console.log('clicked')
 		location.reload();  //Laddar om sidan
 	})
@@ -249,6 +298,7 @@ function winner() {
 	let scoreboardButton = document.createElement('button')
 	let winnerText = document.createElement('p')
 	let winnerText2 = document.createElement('p')
+	let playAgainButton = document.createElement('button')
 	buttonDiv.className = 'button-div'
 	winnerText2.className = 'winner-text'
 	winnerText.className = 'winner-text'
@@ -256,18 +306,19 @@ function winner() {
 	winnerText2.innerText = 'Du vann på ' + (guesses + 1) + ' gissningar'
 	overlay.overlayDiv.className = 'winner'
 	overlay.overlayText.className = 'winner-heading'
+	playAgainButton.className = 'overlay-button'
 	overlay.overlayText.innerText = 'Grattis!'
-	overlay.overlayButton.innerText = 'Spela igen'
+	playAgainButton.innerText = 'Spela igen'
 	scoreboardButton.className = 'winner-scoreboard-button'
 	scoreboardButton.innerText = 'Poängtavla'
-	overlay.overlayDiv.insertBefore(winnerText2, overlay.overlayButton)
-	overlay.overlayDiv.insertBefore(winnerText, overlay.overlayButton)
+	overlay.overlayDiv.append(winnerText2)
+	overlay.overlayDiv.append(winnerText)
 	overlay.overlayDiv.append(buttonDiv)
-	buttonDiv.append(overlay.overlayButton)
+	buttonDiv.append(playAgainButton)
 	buttonDiv.append(scoreboardButton)
 	storeScore()
 
-	overlay.overlayButton.addEventListener('click', () => {
+	playAgainButton.addEventListener('click', () => {
 		console.log('clicked')
 		location.reload(); //Laddar om sidan
 	})
@@ -295,8 +346,6 @@ function scoreboard() {
 		listBox: document.createElement('div'),
 		checkbox: document.createElement('input'),
 		switchButton: document.createElement('label')
-
-
 	}
 
 	scoreboardElements.checkbox.type = 'checkbox'
@@ -334,12 +383,12 @@ function scoreboard() {
 
 	// Lyssnar om checkboxen är ikryssad, byter vilken lista vi ska köra showScores-funktionen med beroende på state på checkboxen.
 
-	scoreboardElements.checkbox.addEventListener('change', () => {
+	scoreboardElements.checkbox.addEventListener('change', event => {
 
 		if (scoreboardElements.checkbox.checked) {
 			clearScoreList()
 			showScores(sortByBest)
-			console.log('sortera bässt först');
+			console.log('sortera bäst först');
 		} else {
 			clearScoreList()
 			showScores(sortByLatest)
@@ -379,15 +428,15 @@ function scoreboard() {
 
 
 	overlay.overlayDiv.className = 'scoreboard'
-	overlay.overlayButton.innerText = 'Spela igen'
+	// overlay.overlayButton.innerText = 'Spela igen'
 
-	overlay.overlayButton.addEventListener('click', event => {
-		console.log('clicked')
-		location.reload();  //Laddar om sidan
-		event.stopPropagation()
+	// overlay.overlayButton.addEventListener('click', event => {
+	// 	console.log('clicked')
+	// 	location.reload();  //Laddar om sidan
+	// 	event.stopPropagation()
 
-		//Stoppar bubblingen uppåt så att overlayen bara stängs när man klickar utanför
-	})
+	// 	//Stoppar bubblingen uppåt så att overlayen bara stängs när man klickar utanför
+	// })
 
 	overlay.overlayDiv.addEventListener('click', event => {
 		event.stopPropagation()
