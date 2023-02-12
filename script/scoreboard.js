@@ -8,7 +8,7 @@
 function scoreboard() {
 	const storedStringScores = localStorage.getItem(LS_KEY)
 	const storedScores = JSON.parse(storedStringScores)
-	createOverlay()
+	let overlayElements = createOverlay()
 	const sortByBest = findBestScores(scoreArrayCopy)
 	let sortByLatest = storedScores.slice().reverse()
 	let scoreboardElements = {
