@@ -95,8 +95,8 @@ letterInput.addEventListener('keydown', event => {
 		compareLetters()
 		letterInput.value = ''
 		guesses = guesses + 1
-		wordHelpContainer.remove()
-		letterHelpContainer.remove()
+		// wordHelpContainer.remove()
+		// letterHelpContainer.remove()
 	}
 	else if (validKeys.includes(event.key) == false) {
 		event.preventDefault()
@@ -234,7 +234,7 @@ export default function startScreen() {
 	easyButton.className = 'overlay-button'
 	mediumButton.className = 'overlay-button'
 	hardButton.className = 'overlay-button'
-	kidsButton.innerText = 'barn'
+	kidsButton.innerText = 'Barn'
 	easyButton.innerText = 'Lätt'
 	mediumButton.innerText = 'Mellan'
 	hardButton.innerText = 'Svårt'
@@ -354,7 +354,7 @@ function scoreboard() {
 	const storedScores = JSON.parse(storedStringScores)
 	let playAgainButton = document.createElement('button')
 	let overlayElements = createOverlay()
-	const sortByBest = findBestScores(scoreArrayCopy)
+	const sortByBest = findBestScores(scoresParsed)
 	let sortByLatest = storedScores.slice().reverse()
 	let scoreboardElements = {
 		name: document.createElement('h2'),
@@ -419,13 +419,16 @@ function scoreboard() {
 
 		if (scoreboardElements.checkbox.checked) {
 			clearScoreList()
-			showScores(sortByBest)
+			showScores(findBestScores(JSON.parse(localStorage.getItem(LS_KEY))))
+			// showScores(sortByBest)
 			scoreboardElements.checkBoxTag.innerText = 'Sortera senast först'
 			console.log('sortera bäst först');
+			console.log(sortByBest);
 			
 		} else {
 			clearScoreList()
-			showScores(sortByLatest)
+			showScores(JSON.parse(localStorage.getItem(LS_KEY)))
+			// showScores(sortByLatest)
 			console.log('sortera senast först');
 		}
 	})
@@ -438,9 +441,11 @@ function scoreboard() {
 		scoreList.className = 'score-list'
 		overlayElements.overlayDiv.className = 'scoreboard'
 
-		for (let i = 0; i < 10; i++) {
+		console.log(list);
+
+		list.forEach(element => {
 			const listItem = document.createElement("li");
-			listItem.innerHTML = `<p>${list[i].name}</p> <p>${list[i].score} poäng</p> <p>${list[i].result}</p>`;
+			listItem.innerHTML = `<p>${element.name}</p> <p>${element.score} poäng</p> <p>${element.result}</p>`;
 			const deleteButton = document.createElement("button");
 			deleteButton.className = 'delete-button'
 			deleteButton.innerText = 'Ta bort'
@@ -448,7 +453,20 @@ function scoreboard() {
 			listItem.appendChild(deleteButton);
 
 			deleteButton.addEventListener('click', () => listItem.remove())
-		}
+
+		});
+
+		// for (let i = 0; i < 10; i++) {
+		// 	const listItem = document.createElement("li");
+		// 	listItem.innerHTML = `<p>${list[i].name}</p> <p>${list[i].score} poäng</p> <p>${list[i].result}</p>`;
+		// 	const deleteButton = document.createElement("button");
+		// 	deleteButton.className = 'delete-button'
+		// 	deleteButton.innerText = 'Ta bort'
+		// 	scoreList.appendChild(listItem);
+		// 	listItem.appendChild(deleteButton);
+
+		// 	deleteButton.addEventListener('click', () => listItem.remove())
+		// }
 
 		// overlay.overlayDiv.appendChild(scoreList);
 		scoreboardElements.listBox.append(scoreList)
@@ -513,14 +531,13 @@ function checkResult(result) {
 
 const scoreStringArray = localStorage.getItem(LS_KEY)
 let scoresParsed = JSON.parse(scoreStringArray)
-const scoreArrayCopy = scoresParsed.concat()
 
 
 function findBestScores(list) {
 	const bestScoreArray = []
 
 
-	for (let check = 0; check < 10; check++) {
+	for (let check = 0; check = list.length; check++) {
 		let bestScoreSoFar = null;
 		let bestScoreIndex = null;
 
