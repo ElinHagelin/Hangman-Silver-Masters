@@ -1,6 +1,5 @@
 import wordList from "../JSON/word-list.json" assert { type: "json" };
 import kidsWordList from "../JSON/kids-word-list.json" assert { type: "json" };
-// import { scoreboard } from './scoreboard.js'
 
 const letterDivContainer = document.querySelector('.letter-div-container')
 const letterInput = document.querySelector('#letter-input')
@@ -44,15 +43,6 @@ let result = false
 let wrongGuess = 0
 const overlayInput = document.createElement('input')
 
-// let writeLetterHere = document.createElement('p')
-// let thisIsYourRandomWord = document.createElement('p')
-// writeLetterHere.innerText = 'Skriv din bokstavsgissning här:'
-// writeLetterHere.className = 'style-help'
-// thisIsYourRandomWord.innerText = 'Här är ett slumpat ord att gissa på!'
-// thisIsYourRandomWord.className = 'style-help'
-// letterHelpContainer.append(writeLetterHere)
-// wordHelpContainer.append(thisIsYourRandomWord)
-
 
 // När man trycker på "poänglista" så kommer scoreboarden upp, funktionen för scorebord finns längre ner i koden.
 scoreboardButton.addEventListener('click', () => {
@@ -95,8 +85,7 @@ letterInput.addEventListener('keydown', event => {
 		compareLetters()
 		letterInput.value = ''
 		guesses = guesses + 1
-		// wordHelpContainer.remove()
-		// letterHelpContainer.remove()
+		
 	}
 	else if (validKeys.includes(event.key) == false) {
 		event.preventDefault()
@@ -279,7 +268,7 @@ export default function startScreen() {
 	})
 }
 
-// startScreen()
+
 
 // funktionen för overlay när man förlorar:
 
@@ -339,9 +328,7 @@ function winner() {
 	})
 
 	scoreboardButton.addEventListener('click', () => {
-
 		overlayElements.backgroundBlur.remove()
-		// overlay.backgroundBlur.classList.add('invisible')
 		scoreboard() //Byter overlay till scoreboard
 
 	})
@@ -420,7 +407,7 @@ function scoreboard() {
 		if (scoreboardElements.checkbox.checked) {
 			clearScoreList()
 			showScores(findBestScores(JSON.parse(localStorage.getItem(LS_KEY))))
-			// showScores(sortByBest)
+			
 			scoreboardElements.checkBoxTag.innerText = 'Sortera senast först'
 			console.log('sortera bäst först');
 			console.log(sortByBest);
@@ -428,7 +415,7 @@ function scoreboard() {
 		} else {
 			clearScoreList()
 			showScores(JSON.parse(localStorage.getItem(LS_KEY)))
-			// showScores(sortByLatest)
+			
 			console.log('sortera senast först');
 		}
 	})
@@ -456,19 +443,7 @@ function scoreboard() {
 
 		});
 
-		// for (let i = 0; i < 10; i++) {
-		// 	const listItem = document.createElement("li");
-		// 	listItem.innerHTML = `<p>${list[i].name}</p> <p>${list[i].score} poäng</p> <p>${list[i].result}</p>`;
-		// 	const deleteButton = document.createElement("button");
-		// 	deleteButton.className = 'delete-button'
-		// 	deleteButton.innerText = 'Ta bort'
-		// 	scoreList.appendChild(listItem);
-		// 	listItem.appendChild(deleteButton);
-
-		// 	deleteButton.addEventListener('click', () => listItem.remove())
-		// }
-
-		// overlay.overlayDiv.appendChild(scoreList);
+	
 		scoreboardElements.listBox.append(scoreList)
 	}
 
@@ -480,8 +455,6 @@ function scoreboard() {
 		}
 	}
 
-
-	
 
 	overlayElements.overlayDiv.addEventListener('click', event => {
 		event.stopPropagation()
@@ -505,7 +478,7 @@ function storeScore() {
 	}
 
 	let scoreStringFromLocalStorage = localStorage.getItem(LS_KEY)
-	// Obs! Användaren kan ta bort datan från localStorage
+
 	if (!scoreStringFromLocalStorage) {
 		scoreStringFromLocalStorage = '[]'
 	}
@@ -518,7 +491,6 @@ function storeScore() {
 
 	return matchRound
 }
-
 
 function checkResult(result) {
 	if (result === true) {
@@ -553,5 +525,3 @@ function findBestScores(list) {
 	}
 	return bestScoreArray
 }
-
-// export { createOverlay, result, overlayElements }

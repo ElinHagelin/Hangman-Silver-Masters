@@ -9,30 +9,6 @@ body {
 	visibility: hidden;
 }
 
-/* .style-help {
-	color: rgb(100, 100, 210);
-	font-size: 18px;
-	font-family: 'Indie Flower', cursive;
-	border: 2px solid;
-	border-radius: 2em;
-	width: fit-content;
-	padding-left: 0.5em;
-	padding-right: 0.5em;
-}
-
-.word {
-	/* position: sticky;
-	top: 23em;
-	left: 20em; 
-}
-
-.letter {
-	position: sticky;
-	top: 28.3em;
-	left: 13em;
-
-} */
-
 
 .overlay {
 	background-color: rgba(0, 0, 0, 0.5);
@@ -297,8 +273,6 @@ ul {
 .quit-button:focus {
 	background-color: rgba(137, 35, 35, 0.6);
 }
-
-
 
 .hangman-figure {
 	max-height: 350px;
