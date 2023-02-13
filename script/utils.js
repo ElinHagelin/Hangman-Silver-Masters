@@ -175,12 +175,14 @@ function createOverlay() {
 		backgroundBlur: document.createElement('div'),
 		overlayDiv: document.createElement('div'),
 		overlayText: document.createElement('h1'),
+		headContainer: document.createElement('div')
 	}
 
 	overlayElements.backgroundBlur.className = 'overlay'
 	overlayElements.overlayDiv.classList.add = 'dialogue'
+	overlayElements.headContainer.append(overlayElements.overlayText)
 	overlayElements.backgroundBlur.append(overlayElements.overlayDiv)
-	overlayElements.overlayDiv.append(overlayElements.overlayText)
+	overlayElements.overlayDiv.append(overlayElements.headContainer)
 	body.append(overlayElements.backgroundBlur)
 	return overlayElements;
 }
@@ -196,6 +198,8 @@ export default function startScreen() {
 	startText.className = 'start-text'
 	startText.innerText = 'Skriv in ditt namn: '
 	overlayInput.className = 'name-input'
+	overlayInput.maxLength = "5";
+	
 	overlayElements.overlayDiv.className = 'start'
 	overlayElements.overlayText.className = 'start-heading'
 	overlayElements.overlayText.innerText = 'Välkommen till Hänga Gubbe!'
@@ -334,6 +338,7 @@ function winner() {
 function scoreboard() {
 	const storedStringScores = localStorage.getItem(LS_KEY)
 	const storedScores = JSON.parse(storedStringScores)
+	let playAgainButton = document.createElement('button')
 	let overlayElements = createOverlay()
 	const sortByBest = findBestScores(scoreArrayCopy)
 	let sortByLatest = storedScores.slice().reverse()
@@ -342,14 +347,26 @@ function scoreboard() {
 		guess: document.createElement('h2'),
 		result: document.createElement('h2'),
 		listBox: document.createElement('div'),
+		switchButtonContainer: document.createElement('div'),
 		checkbox: document.createElement('input'),
-		switchButton: document.createElement('label')
+		switchButton: document.createElement('label'),
+		checkBoxTag: document.createElement('p')
 	}
+
+	scoreboardElements.switchButtonContainer.className = 'switch-button-container'
+	overlayElements.headContainer.className = 'head-container'
+
+
+	scoreboardElements.checkBoxTag.className = 'checkbox-tag'
+	scoreboardElements.checkBoxTag.innerText = 'Sortera bäst först'
+	overlayElements.headContainer.append(overlayElements.overlayText)
+	scoreboardElements.switchButtonContainer.append(scoreboardElements.checkBoxTag)
+	overlayElements.headContainer.append(scoreboardElements.switchButtonContainer)
 
 	scoreboardElements.checkbox.type = 'checkbox'
 	scoreboardElements.checkbox.id = 'switch'
 	scoreboardElements.switchButton.htmlFor = 'switch'
-
+	playAgainButton.className = 'overlay-button'
 
 	overlayElements.overlayText.className = 'scoreboard-head'
 	overlayElements.overlayText.innerText = 'Scoreboard'
@@ -364,12 +381,21 @@ function scoreboard() {
 	scoreboardElements.result.innerText = 'Resultat: '
 
 	scoreboardElements.listBox.className = 'list-box'
-
+	
+	
+	playAgainButton.innerText = 'Spela igen'
+	overlayElements.overlayDiv.append(playAgainButton)
 	overlayElements.overlayDiv.append(scoreboardElements.listBox)
+	
+	scoreboardElements.switchButtonContainer.append(scoreboardElements.checkbox)
+	scoreboardElements.switchButtonContainer.append(scoreboardElements.switchButton)
 
-	overlayElements.overlayDiv.append(scoreboardElements.checkbox)
-	overlayElements.overlayDiv.append(scoreboardElements.switchButton)
+	playAgainButton.addEventListener('click', event => {
+		console.log('clicked')
+		location.reload();  //Laddar om sidan
 
+	})
+	
 
 	showScores(sortByLatest) // Startar med listan som visar senast resultat först på scoreboarden.
 
@@ -380,7 +406,9 @@ function scoreboard() {
 		if (scoreboardElements.checkbox.checked) {
 			clearScoreList()
 			showScores(sortByBest)
+			scoreboardElements.checkBoxTag.innerText = 'Sortera senast först'
 			console.log('sortera bäst först');
+			
 		} else {
 			clearScoreList()
 			showScores(sortByLatest)
@@ -400,6 +428,7 @@ function scoreboard() {
 			const listItem = document.createElement("li");
 			listItem.innerHTML = `<p>${list[i].name}</p> <p>${list[i].score} poäng</p> <p>${list[i].result}</p>`;
 			const deleteButton = document.createElement("button");
+			deleteButton.className = 'delete-button'
 			deleteButton.innerText = 'Ta bort'
 			scoreList.appendChild(listItem);
 			listItem.appendChild(deleteButton);
@@ -419,6 +448,8 @@ function scoreboard() {
 		}
 	}
 
+
+	
 
 	overlayElements.overlayDiv.addEventListener('click', event => {
 		event.stopPropagation()

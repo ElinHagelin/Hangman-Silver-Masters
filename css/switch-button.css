@@ -12,13 +12,13 @@ label {
 	background: grey;
 	display: block;
 	border-radius: 100px;
-	position: relative;
-	left: -4em;
+	position: relative; 
+	/* left: 4em; */ 
+	grid-row: 1;
 }
 
 @media screen and (max-width: 600px) {
 	label {
-		left: -2em;
 		width: 60px;
 		height: 30px;
 	}

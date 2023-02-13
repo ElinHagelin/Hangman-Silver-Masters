@@ -127,39 +127,88 @@ body {
 	font-size: 1.5em;
 }
 
-
-
 .scoreboard {
 	background-color: rgba(0, 0, 0, 0.6);
 	width: min(900px, 70%);
-	height: min(900px, 80%);
+	height: min(1000px, 70%);
 	border: solid white 2px;
 	border-radius: 2em;
 	box-shadow: 10px 10px 5px rgb(98, 98, 98);
 	text-align: center;
 	color: white;
 	display: grid;
+	overflow-y: scroll;
 	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr;
 	align-items: center;
-	padding: 2.5em;
 	margin: 0px;
+	padding-bottom: 2em;
 }
-
 .scoreboard-head {
 	color: #F7FC17;
-	grid-row: 1;
+	justify-self: center;
 	font-size: 2em;
-	margin: 0px 0px 10px 0px;
+	margin-top: 0.5em;
+	padding-left: 1em;
+}
+
+.scoreboard::-webkit-scrollbar {
+	width: 10px;
+	border-radius: 10px;
+	height: 30px;
+  }
+  
+  .scoreboard::-webkit-scrollbar-track {
+	border-radius: 10px;
+
+  }
+  
+  .scoreboard::-webkit-scrollbar-thumb {
+	background: #F7FC17;
+	border-radius: 10px;
+	
+  }
+
+.head-container {
+	display: flex;
+	grid-column: 1;
+	grid-row: 1;
+	justify-content: space-around;
+	flex-flow: wrap;
+}
+
+.switch-button-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 0.5em;
+}
+
+.delete-button {
+	border-radius: 1em;
+	background-color: grey;
+	border-color: #dbdf00;
+	color: white;
+}
+
+.delete-button:hover, 
+.delete-button:focus {
+	background-color: darkgrey;
+}
+
+.scoreboard .checkbox-tag {
+	grid-row: 1;
+	justify-self: flex-start;
 }
 
 .scoreboard .overlay-button {
-	grid-row: 4;
+	grid-row: 3;
 	justify-self: center;
 	box-shadow: 6px 6px 4px rgb(98, 98, 98);
+	margin: 0px;
 }
 
 .button-container {
+	flex-wrap: wrap;
 	display: flex;
 	justify-content: space-between;
 	padding: 2em 3em;
@@ -185,12 +234,18 @@ div .list-box {
 }
 
 li {
-	max-width: 40em;
+	max-width: 50em;
 	flex-flow: wrap;
 	border: #F7FC17 solid 1px;
 	border-radius: 1em;
 	padding: 0.5em;
-	margin: 0.5em;
+	margin: 1em;
+	
+	
+}
+
+ul {
+	padding: 0px;
 }
 
 
@@ -309,8 +364,8 @@ h3 {
 	.wrong-guess-left-container {
 		position: sticky;
 		width: 4em;
+		left: 6em;
 		top: 16em;
-		left: 40em;
 		font-size: 1em;
 		margin-right: 3em;
 	}
@@ -379,12 +434,19 @@ h3 {
 		font-size: 1em;
 	}
 
+	.start input {
+		font-size: 1.2em;
+	}
+
+	.button-container {
+		padding: 1em 1em;
+	}
 }
 
 @media screen and (max-width: 550px) {
 
 	.scoreboard p {
-		font-size: 1em;
+		font-size: 13px;
 		color: #F7FC17;
 		margin: 0px;
 		grid-column: 1;
@@ -429,5 +491,5 @@ ul>li {
 #checkbox,
 label {
 	grid-row: 1;
-	grid-column: 3;
+	grid-column:1;
 }
