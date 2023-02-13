@@ -9,6 +9,8 @@ const wrongGuessLeftContainer = document.querySelector('.wrong-guess-left-contai
 const body = document.querySelector('body')
 const quitButton = document.querySelector('.quit-button')
 const scoreboardButton = document.querySelector('.scoreboard-button')
+const wordHelpContainer = document.querySelector('.word-letter-container')
+const letterHelpContainer = document.querySelector('.letter-help-container')
 
 
 let easyWordList = wordList.filter(word => word.length > 12)
@@ -41,6 +43,16 @@ const LS_KEY = 'hangman-score'
 let result = false
 let wrongGuess = 0
 const overlayInput = document.createElement('input')
+
+// let writeLetterHere = document.createElement('p')
+// let thisIsYourRandomWord = document.createElement('p')
+// writeLetterHere.innerText = 'Skriv din bokstavsgissning här:'
+// writeLetterHere.className = 'style-help'
+// thisIsYourRandomWord.innerText = 'Här är ett slumpat ord att gissa på!'
+// thisIsYourRandomWord.className = 'style-help'
+// letterHelpContainer.append(writeLetterHere)
+// wordHelpContainer.append(thisIsYourRandomWord)
+
 
 // När man trycker på "poänglista" så kommer scoreboarden upp, funktionen för scorebord finns längre ner i koden.
 scoreboardButton.addEventListener('click', () => {
@@ -83,6 +95,8 @@ letterInput.addEventListener('keydown', event => {
 		compareLetters()
 		letterInput.value = ''
 		guesses = guesses + 1
+		wordHelpContainer.remove()
+		letterHelpContainer.remove()
 	}
 	else if (validKeys.includes(event.key) == false) {
 		event.preventDefault()
