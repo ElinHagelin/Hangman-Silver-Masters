@@ -85,7 +85,7 @@ letterInput.addEventListener('keydown', event => {
 		compareLetters()
 		letterInput.value = ''
 		guesses = guesses + 1
-		
+
 	}
 	else if (validKeys.includes(event.key) == false) {
 		event.preventDefault()
@@ -165,9 +165,7 @@ function drawHangman() {
 
 	if (wrongGuess >= 6) {
 		hangman.legs.classList.remove('invisible');
-
 		loser()		// Här körs overlay för när man förlorar då hela gubben har ritats ut från och med här.
-
 	}
 }
 
@@ -190,7 +188,6 @@ function createOverlay() {
 	return overlayElements;
 }
 
-
 // Funktion för overlay på startskärmen
 
 export default function startScreen() {
@@ -202,16 +199,14 @@ export default function startScreen() {
 	startText.innerText = 'Skriv in ditt namn: '
 	overlayInput.className = 'name-input'
 	overlayInput.maxLength = "5";
-	
+
 	overlayElements.overlayDiv.className = 'start'
 	overlayElements.overlayText.className = 'start-heading'
 	overlayElements.overlayText.innerText = 'Välkommen till Hänga Gubbe!'
 
-
 	overlayElements.overlayDiv.append(imgHangman)
 	overlayElements.overlayDiv.append(startText)
 	overlayElements.overlayDiv.append(overlayInput)
-
 
 	const buttonContainer = document.createElement('div')
 	const kidsButton = document.createElement('button')
@@ -228,17 +223,13 @@ export default function startScreen() {
 	mediumButton.innerText = 'Mellan'
 	hardButton.innerText = 'Svårt'
 
-
 	buttonContainer.append(kidsButton)
 	buttonContainer.append(easyButton)
 	buttonContainer.append(mediumButton)
 	buttonContainer.append(hardButton)
 	overlayElements.overlayDiv.append(buttonContainer)
 
-
-
-	if (overlayInput.value != '' || overlayInput.value != null) {
-	}
+	// Eventlyssnare på knapparna för att stänga overlayen och starta spelet
 
 	kidsButton.addEventListener('click', () => {
 		if (overlayInput != '') {
@@ -263,11 +254,9 @@ export default function startScreen() {
 		if (overlayInput != '') {
 			overlayElements.backgroundBlur.remove()
 			generateRandomWord(hardWordList)
-
 		}
 	})
 }
-
 
 
 // funktionen för overlay när man förlorar:
@@ -285,7 +274,7 @@ function loser() {
 	overlayElements.overlayText.innerText = 'AJDÅ, Du förlorade! '
 	overlayElements.overlayDiv.append(looserText)
 	overlayElements.overlayDiv.append(playAgainButton)
-	storeScore()
+	storeScore()//Sparar omgången i localStorage
 
 	playAgainButton.addEventListener('click', () => {
 		console.log('clicked')
@@ -320,7 +309,7 @@ function winner() {
 	overlayElements.overlayDiv.append(buttonDiv)
 	buttonDiv.append(playAgainButton)
 	buttonDiv.append(scoreboardButton)
-	storeScore()
+	storeScore() //Sparar omgången i localStorage
 
 	playAgainButton.addEventListener('click', () => {
 		console.log('clicked')
@@ -330,8 +319,20 @@ function winner() {
 	scoreboardButton.addEventListener('click', () => {
 		overlayElements.backgroundBlur.remove()
 		scoreboard() //Byter overlay till scoreboard
-
 	})
+}
+
+// Objekt med element-variabler till scoreboard
+
+let scoreboardElements = {
+	name: document.createElement('h2'),
+	guess: document.createElement('h2'),
+	result: document.createElement('h2'),
+	listBox: document.createElement('div'),
+	switchButtonContainer: document.createElement('div'),
+	checkbox: document.createElement('input'),
+	switchButton: document.createElement('label'),
+	checkBoxTag: document.createElement('p')
 }
 
 // Funktion för scoreboarden som är en overlay.
@@ -341,22 +342,10 @@ function scoreboard() {
 	const storedScores = JSON.parse(storedStringScores)
 	let playAgainButton = document.createElement('button')
 	let overlayElements = createOverlay()
-	const sortByBest = findBestScores(scoresParsed)
-	let sortByLatest = storedScores.slice().reverse()
-	let scoreboardElements = {
-		name: document.createElement('h2'),
-		guess: document.createElement('h2'),
-		result: document.createElement('h2'),
-		listBox: document.createElement('div'),
-		switchButtonContainer: document.createElement('div'),
-		checkbox: document.createElement('input'),
-		switchButton: document.createElement('label'),
-		checkBoxTag: document.createElement('p')
-	}
+
 
 	scoreboardElements.switchButtonContainer.className = 'switch-button-container'
 	overlayElements.headContainer.className = 'head-container'
-
 
 	scoreboardElements.checkBoxTag.className = 'checkbox-tag'
 	scoreboardElements.checkBoxTag.innerText = 'Sortera bäst först'
@@ -369,25 +358,22 @@ function scoreboard() {
 	scoreboardElements.switchButton.htmlFor = 'switch'
 	playAgainButton.className = 'overlay-button'
 
+	overlayElements.overlayDiv.className = 'scoreboard'
 	overlayElements.overlayText.className = 'scoreboard-head'
 	overlayElements.overlayText.innerText = 'Scoreboard'
 
 	scoreboardElements.name.className = 'style scoreboard-text-name'
 	scoreboardElements.name.innerText = 'Namn:'
-
 	scoreboardElements.guess.className = 'style scoreboard-text-guess'
 	scoreboardElements.guess.innerText = 'Poäng: '
-
 	scoreboardElements.result.className = 'style scoreboard-text-result'
 	scoreboardElements.result.innerText = 'Resultat: '
-
 	scoreboardElements.listBox.className = 'list-box'
-	
-	
+
 	playAgainButton.innerText = 'Spela igen'
 	overlayElements.overlayDiv.append(playAgainButton)
 	overlayElements.overlayDiv.append(scoreboardElements.listBox)
-	
+
 	scoreboardElements.switchButtonContainer.append(scoreboardElements.checkbox)
 	scoreboardElements.switchButtonContainer.append(scoreboardElements.switchButton)
 
@@ -396,65 +382,6 @@ function scoreboard() {
 		location.reload();  //Laddar om sidan
 
 	})
-	
-
-	showScores(sortByLatest) // Startar med listan som visar senast resultat först på scoreboarden.
-
-	// Lyssnar om checkboxen är ikryssad, byter vilken lista vi ska köra showScores-funktionen med beroende på state på checkboxen.
-
-	scoreboardElements.checkbox.addEventListener('change', event => {
-
-		if (scoreboardElements.checkbox.checked) {
-			clearScoreList()
-			showScores(findBestScores(JSON.parse(localStorage.getItem(LS_KEY))))
-			
-			scoreboardElements.checkBoxTag.innerText = 'Sortera senast först'
-			console.log('sortera bäst först');
-			console.log(sortByBest);
-			
-		} else {
-			clearScoreList()
-			showScores(JSON.parse(localStorage.getItem(LS_KEY)))
-			
-			console.log('sortera senast först');
-		}
-	})
-
-
-	// Skapar en poänglista som anttingen visar en lista med senaste omgångarna först eller med de bästa resultaten först beroende på vilken lista man stoppar in som parameter.
-
-	function showScores(list) {
-		const scoreList = document.createElement("ul");
-		scoreList.className = 'score-list'
-		overlayElements.overlayDiv.className = 'scoreboard'
-
-		console.log(list);
-
-		list.forEach(element => {
-			const listItem = document.createElement("li");
-			listItem.innerHTML = `<p>${element.name}</p> <p>${element.score} poäng</p> <p>${element.result}</p>`;
-			const deleteButton = document.createElement("button");
-			deleteButton.className = 'delete-button'
-			deleteButton.innerText = 'Ta bort'
-			scoreList.appendChild(listItem);
-			listItem.appendChild(deleteButton);
-
-			deleteButton.addEventListener('click', () => listItem.remove())
-
-		});
-
-	
-		scoreboardElements.listBox.append(scoreList)
-	}
-
-
-	function clearScoreList() {
-		let listToClear = document.querySelector('.score-list')
-		if (listToClear != null) {
-			listToClear.remove()
-		}
-	}
-
 
 	overlayElements.overlayDiv.addEventListener('click', event => {
 		event.stopPropagation()
@@ -467,8 +394,94 @@ function scoreboard() {
 
 		//Stänger overlayen när man klickar utanför div-en
 	})
+
+	clearScoreList()
+	showScores(findLatestScores()) // Startar med listan som visar senast resultat först på scoreboarden.
+
+	// Lyssnar om checkboxen är ikryssad, byter vilken lista vi ska köra showScores-funktionen med beroende på state på checkboxen.
+
+	scoreboardElements.checkbox.addEventListener('change', () => {
+
+		if (scoreboardElements.checkbox.checked) {
+			clearScoreList()
+			showScores(findBestScores())
+			scoreboardElements.checkBoxTag.innerText = 'Sortera senast först'
+
+		} else {
+			clearScoreList()
+			showScores(findLatestScores())
+			scoreboardElements.checkBoxTag.innerText = 'Sortera bäst först'
+		}
+	})
 }
 
+
+// Skapar en poänglista som antingen visar en lista med senaste omgångarna först eller med de bästa resultaten först beroende på vilken lista(funktion som returnerar lista) man stoppar in som parameter.
+
+function showScores(list) {
+	const scoreList = document.createElement("ul");
+	scoreList.className = 'score-list'
+
+	if (list == null) {
+		return
+	} else {
+		list.forEach(element => {
+			const listItem = document.createElement("li");
+			listItem.innerHTML = `<p>${element.name}</p> <p>${element.score} poäng</p> <p>${element.result}</p>`;
+			const deleteButton = document.createElement("button");
+			deleteButton.className = 'delete-button'
+			deleteButton.innerText = 'Ta bort'
+			scoreList.appendChild(listItem);
+			listItem.appendChild(deleteButton);
+
+			deleteButton.addEventListener('click', () => listItem.remove())
+		});
+	}
+	scoreboardElements.listBox.append(scoreList)
+}
+
+// Funktion för att hitta de bästa reslutaten och lägga dem i en ny lista sorterade med bäst först. 
+
+function findBestScores() {
+	let list = (JSON.parse(localStorage.getItem(LS_KEY)))
+	const bestScoreArray = []
+
+	for (let check = 0; check = list.length; check++) {
+		let bestScoreSoFar = null;
+		let bestScoreIndex = null;
+
+		for (let j = 0; j < list.length; j++) {
+			if (bestScoreSoFar === null || list[j].score < bestScoreSoFar) {
+				bestScoreSoFar = list[j].score;
+				bestScoreIndex = j;
+			}
+		}
+		bestScoreArray.push(list[bestScoreIndex]);
+
+		list.splice(bestScoreIndex, 1);
+	}
+	return bestScoreArray
+}
+
+// Funktion för att hämta omgångarna från localStorage och vända på listan för att få fram de senaste först.
+
+function findLatestScores() {
+	let list = (JSON.parse(localStorage.getItem(LS_KEY)))
+	let latestScoreArray = list.slice().reverse()
+
+	return latestScoreArray
+}
+
+// Funktion för att rensa listan
+
+function clearScoreList() {
+	let listToClear = document.querySelector('.score-list')
+	if (listToClear != null) {
+		listToClear.remove()
+	}
+}
+
+// Funktion för att spara omgång i localStorage
 
 function storeScore() {
 	const matchRound = {
@@ -492,6 +505,8 @@ function storeScore() {
 	return matchRound
 }
 
+// Funktion för att ändra resultat från true/false till vinst/förlust
+
 function checkResult(result) {
 	if (result === true) {
 		return 'Vinst'
@@ -499,29 +514,4 @@ function checkResult(result) {
 	else {
 		return 'Förlust'
 	}
-}
-
-const scoreStringArray = localStorage.getItem(LS_KEY)
-let scoresParsed = JSON.parse(scoreStringArray)
-
-
-function findBestScores(list) {
-	const bestScoreArray = []
-
-
-	for (let check = 0; check = list.length; check++) {
-		let bestScoreSoFar = null;
-		let bestScoreIndex = null;
-
-		for (let j = 0; j < list.length; j++) {
-			if (bestScoreSoFar === null || list[j].score < bestScoreSoFar) {
-				bestScoreSoFar = list[j].score;
-				bestScoreIndex = j;
-			}
-		}
-		bestScoreArray.push(list[bestScoreIndex]);
-
-		list.splice(bestScoreIndex, 1);
-	}
-	return bestScoreArray
 }
