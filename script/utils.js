@@ -422,9 +422,7 @@ function showScores(list) {
 	const scoreList = document.createElement("ul");
 	scoreList.className = 'score-list'
 
-	if (list == null) {
-		return
-	} else {
+	if (list != undefined) {
 		list.forEach(element => {
 			const listItem = document.createElement("li");
 			listItem.innerHTML = `<p>${element.name}</p> <p>${element.score} poäng</p> <p>${element.result}</p>`;
@@ -446,30 +444,38 @@ function findBestScores() {
 	let list = (JSON.parse(localStorage.getItem(LS_KEY)))
 	const bestScoreArray = []
 
-	for (let check = 0; check = list.length; check++) {
-		let bestScoreSoFar = null;
-		let bestScoreIndex = null;
+	if (list == null) {
+		return
+	} else {
+		for (let check = 0; check = list.length; check++) {
+			let bestScoreSoFar = null;
+			let bestScoreIndex = null;
 
-		for (let j = 0; j < list.length; j++) {
-			if (bestScoreSoFar === null || list[j].score < bestScoreSoFar) {
-				bestScoreSoFar = list[j].score;
-				bestScoreIndex = j;
+			for (let j = 0; j < list.length; j++) {
+				if (bestScoreSoFar === null || list[j].score < bestScoreSoFar) {
+					bestScoreSoFar = list[j].score;
+					bestScoreIndex = j;
+				}
 			}
-		}
-		bestScoreArray.push(list[bestScoreIndex]);
+			bestScoreArray.push(list[bestScoreIndex]);
 
-		list.splice(bestScoreIndex, 1);
+			list.splice(bestScoreIndex, 1);
+		}
+		return bestScoreArray
 	}
-	return bestScoreArray
 }
 
 // Funktion för att hämta omgångarna från localStorage och vända på listan för att få fram de senaste först.
 
 function findLatestScores() {
 	let list = (JSON.parse(localStorage.getItem(LS_KEY)))
-	let latestScoreArray = list.slice().reverse()
+	if (list == null) {
+		return
+	} else {
+		let latestScoreArray = list.slice().reverse()
 
-	return latestScoreArray
+		return latestScoreArray
+	}
 }
 
 // Funktion för att rensa listan
